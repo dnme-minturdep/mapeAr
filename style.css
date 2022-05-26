@@ -1,0 +1,40 @@
+.selectize-input {
+  font-size: 14px; 
+  line-height: 14px;
+  } 
+
+.selectize-dropdown {
+  font-size: 12px; 
+  line-height: 12px; 
+  }
+
+.selectize-label {
+  font-size: 9px; 
+  line-height: 12px; 
+  }
+
+.shiny-file-input-progress {
+  display: none
+  }
+  
+.col-sm-3 {
+    padding: 2px;
+}
+
+.row {
+  padding: 5px;
+} 
+
+h3 {
+  font-family: "Encode Sans", serif;
+  color: purple;
+}
+
+.well {
+   padding: 8px 16px 12px 16px;
+}
+
+.action-button {
+  background-color: #baccd6;
+  font-weight: bold;
+}

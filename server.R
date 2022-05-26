@@ -1,0 +1,166 @@
+
+shinyServer(function(input, output, session) {
+    
+    hide(id = "panel2")
+    hide(id = "panel3")
+    
+    plot.dat <- reactiveValues(main=NULL, 
+                               layerSud =NULL, 
+                               layerDep =NULL, 
+                               layerPre =NULL, 
+                               layer1= reactive(NULL), 
+                               layer2= reactive(NULL),
+                               layer3= reactive(NULL),
+                               refMain = reactive(NULL),
+                               refLayer1 = reactive(NULL),
+                               refLayer2 = reactive(NULL),
+                               refLayer3 = reactive(NULL))
+    
+    mapa_base <- reactive({
+        req(input$provincia)
+        if (input$provincia == "País") {
+            mapa_arg <- mapa_arg    
+        } else {
+            mapa_arg <- mapa_arg %>% filter(name_iso %in% input$provincia)
+        }
+    })
+    
+    
+    plot.dat$main <- reactive(ggplot() +
+                                  geom_sf(data = mapa_base(), fill = input$fill_arg, color = input$color_arg) +
+                                  theme_void() +
+                                  theme(legend.position = "none")
+                              )
+    
+    observeEvent(input$sudamerica,{
+        if (input$sudamerica == T) {
+            sudamerica <- read_sf("capas/sudamerica.geojson")
+            plot.dat$layerSud <- geom_sf(data =sudamerica, fill = "transparent")
+        } else {
+            plot.dat$layerSud <- NULL
+        }
+    })
+    
+    observeEvent(input$deptos,{
+        if (input$deptos == T & input$provincia == "País") {
+            deptos <- get_geo("ARGENTINA", level = "departamento")
+            plot.dat$layerDep <- geom_sf(data =deptos, fill = "transparent")
+        } else if (input$deptos == T & !input$provincia == "País") {
+            deptos <- get_geo("ARGENTINA", level = "departamento") %>% 
+                add_geo_codes() %>% 
+                mutate(name_iso = case_when(name_iso == "Ciudad Autónoma de Buenos Aires" ~ "CABA",
+                                            TRUE ~ name_iso))
+            plot.dat$layerDep <- geom_sf(data =deptos %>% filter(name_iso %in% input$provincia), fill = "transparent")
+        } else {
+            plot.dat$layerDep <- NULL
+        }
+    })
+    
+    observeEvent(list(input$refProv,input$provincia, input$refProvSize, input$color_deptos),{
+        req(input$provincia)
+        if (input$refProv == T & input$provincia == "País") {
+            plot.dat$refMain <- geom_sf_text(data = mapa_arg, aes(label = name_iso), 
+                                             size = as.numeric(input$refProvSize),
+                                             color = input$color_deptos) 
+        } else if (input$refProv == T & !input$provincia == "País") {
+            plot.dat$refMain <- geom_sf_text(data = mapa_arg %>% filter(name_iso %in% input$provincia), 
+                                             aes(label = name_iso), size = as.numeric(input$refProvSize),
+                                             color = input$color_deptos)
+        } else {
+            plot.dat$refMain <- NULL
+        }
+    })
+    
+    observeEvent(list(input$preCapas, input$size_pre, input$alpha_pre, mapa_base()),{
+        if (input$preCapas == "Ninguna") {
+            plot.dat$layerPre <- NULL
+        } else if (input$preCapas == "Regiones") {
+            regiones <- st_read("/srv/DataDNMYE/capas_sig/regiones.gpkg", layer = "regiones") %>% st_filter(mapa_base())
+            plot.dat$layerPre <- geom_sf(data =regiones, aes(fill = region), size = input$size_pre, alpha = input$alpha_pre)
+        } else if (input$preCapas == "Rutas Naturales") {
+            rutas_naturales <- st_read("/srv/DataDNMYE/capas_sig/rutas_naturales.gpkg", "rutas_naturales") %>% 
+                distinct(name, .keep_all = T) %>% select(name, color_hex) %>% st_filter(mapa_base())
+            plot.dat$layerPre <- geom_sf(data =rutas_naturales, fill = rutas_naturales$color_hex, size = input$size_pre, alpha = input$alpha_pre) 
+        } else if (input$preCapas == "Circuitos") {
+            circuitos <- st_read("/srv/DataDNMYE/capas_sig/circuitos.gpkg", "circuitos") %>% st_filter(mapa_base())
+            plot.dat$layerPre <- geom_sf(data =circuitos, color = "#87222b", size = input$size_pre, alpha = input$alpha_pre)
+        } else if (input$preCapas == "Áreas Protegidas") {
+            areas_protegidas <- st_read("/srv/DataDNMYE/capas_sig/areas_protegidas_ign.gpkg", "areas_protegidas_ign") %>% st_filter(mapa_base())
+            plot.dat$layerPre <- geom_sf(data =areas_protegidas, fill = "#23a623", size = input$size_pre, alpha = input$alpha_pre)
+        } else if (input$preCapas == "Vías Nacionales") {
+            vias_nacionales <- st_read("/srv/DataDNMYE/capas_sig/vias_nacionales_ign.gpkg", layer = "vias_nacionales_ign") %>% st_filter(mapa_base())
+            plot.dat$layerPre <- geom_sf(data =vias_nacionales, color = "#356296", size = input$size_pre, alpha = input$alpha_pre)
+        } 
+    })
+    
+    ancho_mapa <- InputValidator$new()
+    ancho_mapa$add_rule("widthMap", sv_between(3, 12, message_fmt = "Inserte un valor entre {left} y {right}"))
+    ancho_mapa$enable()
+    
+    alto_mapa <- InputValidator$new()
+    alto_mapa$add_rule("heightMap", sv_between(3, 12, message_fmt = "Inserte un valor entre {left} y {right}"))
+    alto_mapa$enable()
+    
+    dpi_mapa <- InputValidator$new()
+    dpi_mapa$add_rule("dpiMap", sv_between(50, 600, message_fmt = "Inserte un valor entre {left} y {right}"))
+    dpi_mapa$enable()
+    
+    value1 <- capasServer("layer1")
+    value2 <- capasServer("layer2")
+    value3 <- capasServer("layer3")
+    
+    observe({
+
+        if (value1$b()=="Click") {
+            show(id = "panel2")
+        }
+        
+        if (value2$b()=="Click") {
+            show(id = "panel3")
+            hideElement("layer3-btnCapa")
+        }
+        
+        if (!is.null(value1$d())) {
+            plot.dat$layer1 <- reactive({value1$a()})
+            plot.dat$refLayer1 <- reactive({value1$c()})
+        } else {
+            plot.dat$layer1 <- reactive(NULL)
+        }
+       
+        if (!is.null(value2$d())) {
+            plot.dat$layer2 <- reactive({value2$a()})
+        } else {
+            plot.dat$layer2 <- reactive(NULL)
+        }
+        
+        if (!is.null(value3$d())) {
+            plot.dat$layer3 <- reactive({value3$a()})
+        } else {
+            plot.dat$layer3 <- reactive(NULL)
+        }
+    })
+        
+        mapa <- reactive({
+            plot.dat$main() + plot.dat$refMain + 
+                plot.dat$layerPre + 
+                plot.dat$layerSud + plot.dat$layerDep + 
+                plot.dat$layer1() + plot.dat$refLayer1() + 
+                plot.dat$layer2() + plot.dat$refLayer2() +
+                plot.dat$layer3() + plot.dat$refLayer3() 
+        })
+        
+        output$mapa <- renderPlot({
+            mapa()
+        })
+        
+    output$downloadMap <- downloadHandler(
+        filename = function() {paste("mapear", input$formatoMapa, sep =".")},
+        content = function(file) {
+            ggsave(file, plot = mapa(), device = input$formatoMapa, bg = "transparent",
+                   width = as.numeric(input$widthMap), height = as.numeric(input$heightMap), 
+                   dpi = as.numeric(input$dpiMap))
+        }) 
+    
+    
+    
+})
