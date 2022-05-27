@@ -25,16 +25,88 @@
   padding: 5px;
 } 
 
-h3 {
-  font-family: "Encode Sans", serif;
-  color: purple;
-}
-
 .well {
    padding: 8px 16px 12px 16px;
 }
 
-.action-button {
-  background-color: #baccd6;
-  font-weight: bold;
+
+div.outer {
+  position: fixed;
+  top: 41px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  padding: 0;
 }
+
+/* Customize fonts */
+  label { 
+    font-family: 'Encode Sans Normal', Helvetica;
+    color : #37BBED;
+    font-weight: 400;
+  }
+
+  input, select { 
+    font-family: 'Encode Sans Normal', Helvetica;
+    color : black;
+    font-weight: 400;
+  }
+
+  body { 
+    font-family: 'Encode Sans Normal', Helvetica;
+    color:  'black';
+    font-weight: 200;
+    padding-top: 50px;
+  }
+
+  h1, h2, h3 { font-weight: 400; 
+    font-family: 'Encode Sans Normal', Helvetica;
+    color: #37BBED;}
+
+  h4 { font-weight: 400; 
+    font-family: 'Encode Sans Normal', Helvetica;
+       color: black;}
+
+  li {
+    color: white;
+}
+
+
+/* Add an image to navbar */
+  #img-id{
+    position: fixed; 
+    right: 50px;
+    top: 10px;
+  }
+
+
+
+.navbar-nav li a:hover, .navbar-nav > .active > a {
+  background-color: #C2C2C2;
+  color: black !important;
+
+}
+
+.navbar-nav li a {
+  color: white !important;
+}
+
+
+.navbar { 
+  background-color: #37BBED;
+}
+
+.navbar1 { 
+  color: white;
+}
+
+
+/*Collapsible button*/
+.action-button {
+  font-family: 'Encode Sans Normal', Helvetica;
+  right: -20px;
+  background-color: white;  
+  color: black;
+}
+

@@ -161,6 +161,10 @@ shinyServer(function(input, output, session) {
                    dpi = as.numeric(input$dpiMap))
         }) 
     
-    
+    output$downloadData <- downloadHandler(
+        filename = "aeropuertos_modelo.csv",
+        content = function(file) {
+            file.copy("capas/aeropuertos_modelo.csv", file)
+        }) 
     
 })

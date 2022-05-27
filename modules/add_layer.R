@@ -30,7 +30,7 @@ capasUI <- function(id) {
   
   wellPanel(fluidRow(
     column(4,selectInput(ns("referencias"), "Referencias", choices = c("Ninguna"))),
-    column(4,selectInput(ns("labelRef"), "Referencias", choices = c("Texto","Etiqueta"))),
+    column(4,selectInput(ns("labelRef"), "Tipo", choices = c("Texto","Etiqueta"))),
     column(4,sliderInput(ns("sizeRef"), "Tamaño", min = 0.5, max = 5, step = 0.5, value = 2)))
     ),
   
@@ -138,8 +138,6 @@ capasServer <- function(id) {
         geom_sf(data = capa(), aes_string(color = input$color, shape = input$shape),size = as.numeric(input$size), alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Según variable") {
         geom_sf(data = capa(), aes_string(size = input$size), color = capa()$color_hex, shape = as.numeric(input$shape), alpha = input$alpha)
-      } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), color = capa()$color_hex,size = input$size, shape = as.numeric(input$shape), alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable") {
         geom_sf(data = capa(), aes_string(color = capa(), size = input$size,shape = input$shape), alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Único") {
@@ -148,8 +146,6 @@ capasServer <- function(id) {
         geom_sf(data = capa(), aes_string(shape = input$shape, size = input$size), color = capa()$color_hex, alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Según variable" & input$opcionSize == "Único") {
         geom_sf(data = capa(), aes_string(shape = input$shape),size = as.numeric(input$size), color = capa()$color_hex, alpha = input$alpha)
-      } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(size = input$size), color = capa()$color_hex, shape = as.numeric(input$shape), alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Único") {
         geom_sf(data = capa(), size = as.numeric(input$size), color = capa()$color_hex, shape = as.numeric(input$shape), alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Único" & input$opcionShape == "Única" & input$opcionSize == "Único") {
