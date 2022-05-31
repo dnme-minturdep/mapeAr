@@ -44,18 +44,33 @@ capasServer <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- NS(id)
     
-    capa <- eventReactive(input$file,{
+    ext <- reactive({
       req(input$file)
-      if (input$vector == "Puntos") {
-        test <- data.table::fread(input$file$datapath)
+      ext <- tools::file_ext(input$file$name)
+    })
+    
+    capa <- eventReactive(list(input$file,ext()),{
+      req(input$file)
+      if (input$vector == "Puntos" & ext() == "xlsx") {
+        test <- readxl::read_xlsx(input$file$datapath)
         if ("latitud" %in% colnames(test)) {
-          data <- data.table::fread(input$file$datapath) %>% 
+          data <- readxl::read_xlsx(input$file$datapath) %>% 
             janitor::clean_names() %>% 
             st_as_sf(coords = c("longitud", "latitud"), crs = 4326)
         } else {
           data <- read_sf(input$file$datapath) %>% 
             janitor::clean_names()
         }
+        } else if (input$vector == "Puntos" & ext() != "xlsx") {
+          test <- data.table::fread(input$file$datapath)
+          if ("latitud" %in% colnames(test)) {
+            data <- data.table::fread(input$file$datapath) %>% 
+              janitor::clean_names() %>% 
+              st_as_sf(coords = c("longitud", "latitud"), crs = 4326)
+          } else {
+            data <- read_sf(input$file$datapath) %>% 
+              janitor::clean_names()
+          }
         } else {
         data <- read_sf(input$file$datapath) %>% 
           janitor::clean_names()

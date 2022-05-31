@@ -41,9 +41,10 @@ shinyUI(
                                                  label = "Agregar continente", value = F)),
                             column(6,checkboxInput("deptos", 
                                                    label = "Agregar departamentos", value = F))),
-                            fluidRow(
+                            wellPanel("Etiquetas de provincias",
+                                      fluidRow(
                             column(4,checkboxInput("refProv", 
-                                          label = "Agregar etiqueta de provincia", value = F)),
+                                          label = "Agregar etiqueta", value = F)),
                             
                             column(4, selectInput("color_deptos", "Color", selected = "black", 
                                                   choices = c("Negro"="black",
@@ -55,16 +56,18 @@ shinyUI(
                                                               "Verde"="green"))),
                             column(4,sliderInput("refProvSize", label = "Tamaño", 
                                                  value = 1, min = 0.5, max = 7, step = 0.5))
-                            )), 
+                            ))), 
                             
-                            fluidRow(
-                            column(4,selectInput("preCapas", label = "Capas predefinidas", #multiple = T, 
+                            
+                            wellPanel("Capa predefinida",
+                                      fluidRow(
+                            column(4,selectInput("preCapas", label = "Opciones de capa", #multiple = T, 
                                         choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos",
                                                     "Áreas Protegidas", "Vías Nacionales"))),
                             column(4,sliderInput("size_pre", label = "Grosor", 
                                                  value = 1, min = 0, max = 3, step = 0.2)),
                             column(4,sliderInput("alpha_pre", label = "Opacidad", 
-                                                 value = 1, min = 0, max = 1, step = 0.1))),
+                                                 value = 1, min = 0, max = 1, step = 0.1)))),
                             
                             wellPanel(id = "panel1", h3("CAPA 1"), capasUI("layer1")),
                             wellPanel(id = "panel2", h3("CAPA 2"), capasUI("layer2")),
