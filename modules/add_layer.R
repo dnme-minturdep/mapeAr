@@ -246,11 +246,11 @@ capasServer <- function(id) {
       } else if (input$referencias!="Ninguna" & input$labelRef=="Texto") {
         ggrepel::geom_text_repel(data=capa(), aes_string(label= input$referencias, geometry="geometry"), 
                                  stat = "sf_coordinates", size = as.numeric(input$sizeRef),
-                                 box.padding = 0.1, min.segment.length = 1, max.overlaps = 200)
+                                 box.padding = 0.2, min.segment.length = 1, max.overlaps = 200)
       } else if (input$referencias!="Ninguna" & input$labelRef=="Etiqueta") {
         ggrepel::geom_label_repel(data=capa(), aes_string(label= input$referencias, geometry="geometry"), 
                                   stat = "sf_coordinates", size = as.numeric(input$sizeRef),
-                                  box.padding = 0.1, min.segment.length = 1, max.overlaps = 200)
+                                  box.padding = 0.2, min.segment.length = 1, max.overlaps = 200)
       }
       
     })
