@@ -8,34 +8,34 @@ capasUI <- function(id) {
     radioButtons(ns("vector"),label = "Datos espaciales:", choices = c("Puntos","Líneas","Polígonos"), inline = T),
     
     fileInput(ns("file"), "Cargar archivo", 
-            buttonLabel = "Buscar", placeholder = "Sin archivo",
-            multiple = FALSE, #accept = c(".csv",".geojson",".xlsx",".kml")
-            ),
-  
-  fluidRow(
-    column(3,wellPanel(selectInput(ns("opcionColor"),label = "Color", choices=c("Único","Según variable","Personalizado")),
-                       uiOutput(ns("colorear")))),
-    
-    column(3,wellPanel(selectInput(ns("opcionShape"),label = "Forma", choices=c("Única","Según variable")),
-                       selectInput(ns("shape"), label = NULL, choices = c("Círculos"=16,"Triangulos"=17,"Rombos"=18,"Cuadrados"=15)))),
-    
-    column(3,wellPanel(selectInput(ns("opcionSize"),label = "Tamaño", choices=c("Único","Según variable")),
-                       selectInput(ns("size"), label = NULL, choices = c(1:7)))),
-    
-    column(3,wellPanel(noUiSliderInput(ns("alpha"), label = "Opacidad", min = -0.1, max = 1.1, 
-                                         value = 1, step = 0.1, orientation = "vertical", padding = 0.1,
-                                       height = 80, direction = "rtl", color = "#37BBED")))
-
-  ),
-  
-  wellPanel(fluidRow(
-    column(4,selectInput(ns("referencias"), "Referencias", choices = c("Ninguna"))),
-    column(4,selectInput(ns("labelRef"), "Tipo", choices = c("Texto","Etiqueta"))),
-    column(4,sliderInput(ns("sizeRef"), "Tamaño", min = 0.5, max = 5, step = 0.5, value = 2)))
+              buttonLabel = "Buscar", placeholder = "Sin archivo",
+              multiple = FALSE, #accept = c(".csv",".geojson",".xlsx",".kml")
     ),
-  
-  actionButton(ns("btnCapa"),label = "Agregar capa", icon = icon("plus", lib = "font-awesome"))
- ) 
+    
+    fluidRow(
+      column(3,wellPanel(selectInput(ns("opcionColor"),label = "Color", choices=c("Único","Según variable","Personalizado")),
+                         uiOutput(ns("colorear")))),
+      
+      column(3,wellPanel(selectInput(ns("opcionShape"),label = "Forma", choices=c("Única","Según variable")),
+                         selectInput(ns("shape"), label = NULL, choices = c("Círculos"=16,"Triangulos"=17,"Rombos"=18,"Cuadrados"=15)))),
+      
+      column(3,wellPanel(selectInput(ns("opcionSize"),label = "Tamaño", choices=c("Único","Según variable")),
+                         selectInput(ns("size"), label = NULL, choices = c(1:7)))),
+      
+      column(3,wellPanel(noUiSliderInput(ns("alpha"), label = "Opacidad", min = -0.1, max = 1.1, 
+                                         value = 1, step = 0.1, orientation = "vertical", padding = 0.1,
+                                         height = 80, direction = "rtl", color = "#37BBED")))
+      
+    ),
+    
+    wellPanel(fluidRow(
+      column(4,selectInput(ns("referencias"), "Referencias", choices = c("Ninguna"))),
+      column(4,selectInput(ns("labelRef"), "Tipo", choices = c("Texto","Etiqueta"))),
+      column(4,sliderInput(ns("sizeRef"), "Tamaño", min = 0.5, max = 5, step = 0.5, value = 2)))
+    ),
+    
+    actionButton(ns("btnCapa"),label = "Agregar capa", icon = icon("plus", lib = "font-awesome"))
+  ) 
 }
 
 ## Segmento del server
@@ -52,35 +52,45 @@ capasServer <- function(id) {
     capa <- eventReactive(list(input$file,ext()),{
       req(input$file)
       if (input$vector == "Puntos" & ext() == "xlsx") {
-        test <- readxl::read_xlsx(input$file$datapath)
+        test <- readxl::read_xlsx(input$file$datapath) %>% 
+          janitor::clean_names()
         if ("latitud" %in% colnames(test)) {
           data <- readxl::read_xlsx(input$file$datapath) %>% 
-            janitor::clean_names() %>% 
+            janitor::clean_names() %>%
+            mutate(latitud = str_replace(latitud, ",", "."),
+                   longitud = str_replace(longitud, ",", "."),
+                   longitud = as.numeric(longitud),
+                   latitud = as.numeric(latitud)) %>%
             st_as_sf(coords = c("longitud", "latitud"), crs = 4326)
         } else {
           data <- read_sf(input$file$datapath) %>% 
             janitor::clean_names()
         }
-        } else if (input$vector == "Puntos" & ext() != "xlsx") {
-          test <- data.table::fread(input$file$datapath)
-          if ("latitud" %in% colnames(test)) {
-            data <- data.table::fread(input$file$datapath) %>% 
-              janitor::clean_names() %>% 
-              st_as_sf(coords = c("longitud", "latitud"), crs = 4326)
-          } else {
-            data <- read_sf(input$file$datapath) %>% 
-              janitor::clean_names()
-          }
+      } else if (input$vector == "Puntos" & ext() != "xlsx") {
+        test <- data.table::fread(input$file$datapath) %>% 
+          janitor::clean_names()
+        if ("latitud" %in% colnames(test)) {
+          data <- data.table::fread(input$file$datapath) %>% 
+            janitor::clean_names() %>% 
+            mutate(latitud = str_replace(latitud, ",", "."),
+                   longitud = str_replace(longitud, ",", "."),
+                   longitud = as.numeric(longitud),
+                   latitud = as.numeric(latitud)) %>%
+            st_as_sf(coords = c("longitud", "latitud"), crs = 4326)
         } else {
+          data <- read_sf(input$file$datapath) %>% 
+            janitor::clean_names()
+        }
+      } else {
         data <- read_sf(input$file$datapath) %>% 
           janitor::clean_names()
-        }
+      }
       rm(test)
       data
     })
-   
+    
     observeEvent(capa(),{
-        updateSelectInput(inputId = "referencias",choices = c("Ninguna",colnames(capa() %>% st_set_geometry(NULL))))
+      updateSelectInput(inputId = "referencias",choices = c("Ninguna",colnames(capa() %>% st_set_geometry(NULL))))
     })
     
     observeEvent(input$vector,{
@@ -90,20 +100,20 @@ capasServer <- function(id) {
       } else if (input$vector %in% c("Puntos","Líneas")) {
         updateSelectInput(inputId = "opcionShape", label = "Forma",choices = c("Única","Según variable"))
       }
-      })
+    })
     
     
-      output$colorear <- renderUI({
-          if (input$opcionColor == "Único") {
-            colourInput(inputId = ns("color"), label = NULL, value = "purple")
-          } else if (input$opcionColor == "Según variable"){
-            selectInput(inputId = ns("color"), label = NULL, choices = colnames(capa() %>% select_if(is.character) %>% st_set_geometry(NULL)))
-          } else if (input$opcionColor == "Personalizado") {
-            selectInput(inputId = ns("color"), label = NULL, choices = "color_hex")
-          }
-          })     
-     
-
+    output$colorear <- renderUI({
+      if (input$opcionColor == "Único") {
+        colourInput(inputId = ns("color"), label = NULL, value = "purple")
+      } else if (input$opcionColor == "Según variable"){
+        selectInput(inputId = ns("color"), label = NULL, choices = colnames(capa() %>% select_if(is.character) %>% st_set_geometry(NULL)))
+      } else if (input$opcionColor == "Personalizado") {
+        selectInput(inputId = ns("color"), label = NULL, choices = "color_hex")
+      }
+    })     
+    
+    
     observeEvent(list(input$opcionShape, input$vector),{
       if (input$vector =="Puntos" & input$opcionShape == "Única") {
         updateSelectInput(inputId = "shape", choices = c("Círculos"=16,"Triangulos"=17,"Rombos"=18,"Cuadrados"=15))
@@ -125,7 +135,7 @@ capasServer <- function(id) {
         updateSelectInput(inputId = "shape", choices = colnames(capa() %>% select_if(is.character)%>% st_set_geometry(NULL)))
       }
     })
-
+    
     observeEvent(list(input$opcionSize, input$vector),{
       if (input$opcionSize == "Único") {
         updateSelectInput(inputId = "size", choices = c(1:7))
@@ -260,4 +270,3 @@ capasServer <- function(id) {
     
   })
 }
-

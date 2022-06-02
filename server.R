@@ -162,9 +162,9 @@ shinyServer(function(input, output, session) {
         }) 
     
     output$downloadData <- downloadHandler(
-        filename = "aeropuertos_modelo.csv",
+        filename = "aeropuertos_modelo.xlsx",
         content = function(file) {
-            file.copy("capas/aeropuertos_modelo.csv", file)
+            file.copy("capas/aeropuertos_modelo.xlsx", file)
         }) 
     
 })
