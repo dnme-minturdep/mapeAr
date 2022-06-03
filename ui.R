@@ -69,6 +69,8 @@ shinyUI(
                             column(4,sliderInput("alpha_pre", label = "Opacidad", 
                                                  value = 1, min = 0, max = 1, step = 0.1)))),
                             
+                            HTML("Antes de cargar un archivo, consulte la sección <b>¿CÓMO USAR?</b> para verificar que su base de datos cumple los requerimientos y recomendaciones."),
+                            br(),br(),
                             wellPanel(id = "panel1", h3("CAPA 1"), capasUI("layer1")),
                             wellPanel(id = "panel2", h3("CAPA 2"), capasUI("layer2")),
                             wellPanel(id = "panel3", h3("CAPA 3"), capasUI("layer3")),
@@ -116,7 +118,7 @@ shinyUI(
                         
                         h5(tags$ul(tags$p("A continuación puede descargar una base modelo, con algunos aeropuertos de Argentina, para tener de referncia a la hora de estructurar los datos a mapear."))),
                         
-                        downloadButton(outputId = 'downloadData', label = 'Descargar base')
+                        downloadButton(outputId = 'downloadData', label = 'Descargar base'),br(),br()
                )
                )
     )
