@@ -129,12 +129,14 @@ shinyServer(function(input, output, session) {
        
         if (!is.null(value2$d())) {
             plot.dat$layer2 <- reactive({value2$a()})
+            plot.dat$refLayer2 <- reactive({value2$c()})
         } else {
             plot.dat$layer2 <- reactive(NULL)
         }
         
         if (!is.null(value3$d())) {
             plot.dat$layer3 <- reactive({value3$a()})
+            plot.dat$refLayer3 <- reactive({value3$c()})
         } else {
             plot.dat$layer3 <- reactive(NULL)
         }
