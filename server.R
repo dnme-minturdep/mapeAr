@@ -7,7 +7,8 @@ shinyServer(function(input, output, session) {
     plot.dat <- reactiveValues(main=NULL, 
                                layerSud =NULL, 
                                layerDep =NULL, 
-                               layerPre =NULL, 
+                               layerPre =NULL,
+                               layerPre2 = NULL,
                                layer1= reactive(NULL), 
                                layer2= reactive(NULL),
                                layer3= reactive(NULL),
@@ -71,28 +72,69 @@ shinyServer(function(input, output, session) {
         }
     })
     
-    observeEvent(list(input$preCapas, input$size_pre, input$alpha_pre, mapa_base()),{
+    observeEvent(list(input$provincia,input$preCapas, input$size_pre, input$alpha_pre, mapa_base()),{
         if (input$preCapas == "Ninguna") {
             plot.dat$layerPre <- NULL
         } else if (input$preCapas == "Regiones") {
             regiones <- st_read("/srv/DataDNMYE/capas_sig/regiones.gpkg", layer = "regiones") %>% st_filter(mapa_base())
             plot.dat$layerPre <- geom_sf(data =regiones, aes(fill = region), size = input$size_pre, alpha = input$alpha_pre)
         } else if (input$preCapas == "Rutas Naturales") {
-            rutas_naturales <- st_read("/srv/DataDNMYE/capas_sig/rutas_naturales.gpkg", "rutas_naturales") %>% 
-                distinct(name, .keep_all = T) %>% select(name, color_hex) %>% st_filter(mapa_base())
+            if (input$provincia == "País") {
+                rutas_naturales <- st_read("/srv/DataDNMYE/capas_sig/rutas_naturales.gpkg", "rutas_naturales") %>%
+                    distinct(name, .keep_all = T)
+            } else {
+                rutas_naturales <- st_read("/srv/DataDNMYE/capas_sig/rutas_naturales.gpkg", "rutas_naturales") %>%
+                    filter(provincia %in% input$provincia) %>% 
+                    st_intersection(mapa_base())
+            }
             plot.dat$layerPre <- geom_sf(data =rutas_naturales, fill = rutas_naturales$color_hex, size = input$size_pre, alpha = input$alpha_pre) 
         } else if (input$preCapas == "Circuitos") {
-            circuitos <- st_read("/srv/DataDNMYE/capas_sig/circuitos.gpkg", "circuitos") %>% st_filter(mapa_base())
+            circuitos <- st_read("/srv/DataDNMYE/capas_sig/circuitos.gpkg", "circuitos") %>% st_intersection(mapa_base())
             plot.dat$layerPre <- geom_sf(data =circuitos, color = "#87222b", size = input$size_pre, alpha = input$alpha_pre)
         } else if (input$preCapas == "Áreas Protegidas") {
-            areas_protegidas <- st_read("/srv/DataDNMYE/capas_sig/areas_protegidas_ign.gpkg", "areas_protegidas_ign") %>% st_filter(mapa_base())
+            areas_protegidas <- st_read("/srv/DataDNMYE/capas_sig/areas_protegidas_ign.gpkg", "areas_protegidas_ign") %>% st_intersection(mapa_base())
             plot.dat$layerPre <- geom_sf(data =areas_protegidas, fill = "#23a623", size = input$size_pre, alpha = input$alpha_pre)
         } else if (input$preCapas == "Vías Nacionales") {
-            vias_nacionales <- st_read("/srv/DataDNMYE/capas_sig/vias_nacionales_ign.gpkg", layer = "vias_nacionales_ign") %>% st_filter(mapa_base())
+            vias_nacionales <- st_read("/srv/DataDNMYE/capas_sig/vias_nacionales_ign.gpkg", layer = "vias_nacionales_ign") %>% st_intersection(mapa_base())
             plot.dat$layerPre <- geom_sf(data =vias_nacionales, color = "#356296", size = input$size_pre, alpha = input$alpha_pre)
+        } else if (input$preCapas == "Capitales") {
+            capitales <- st_read("/srv/DataDNMYE/capas_sig/capitales.gpkg", layer = "capitales") %>% st_filter(mapa_base())
+            plot.dat$layerPre <- geom_sf(data =capitales, color = "black", fill = "#45261a", shape = 21, size = input$size_pre, alpha = input$alpha_pre)
+        }
+    })
+
+    
+    observeEvent(list(input$preCapas2, input$size_pre2, input$alpha_pre2, mapa_base()),{
+        if (input$preCapas2 == "Ninguna") {
+            plot.dat$layerPre2 <- NULL
+        } else if (input$preCapas2 == "Regiones") {
+            regiones <- st_read("/srv/DataDNMYE/capas_sig/regiones.gpkg", layer = "regiones") %>% st_filter(mapa_base())
+            plot.dat$layerPre2 <- geom_sf(data =regiones, aes(fill = region), size = input$size_pre2, alpha = input$alpha_pre2, color = "black")
+        } else if (input$preCapas2 == "Rutas Naturales") {
+            if (input$provincia == "País") {
+                rutas_naturales <- st_read("/srv/DataDNMYE/capas_sig/rutas_naturales.gpkg", "rutas_naturales") %>%
+                    distinct(name, .keep_all = T)
+            } else {
+                rutas_naturales <- st_read("/srv/DataDNMYE/capas_sig/rutas_naturales.gpkg", "rutas_naturales") %>%
+                    filter(provincia %in% input$provincia) %>% 
+                    st_intersection(mapa_base())
+            }
+            plot.dat$layerPre2 <- geom_sf(data =rutas_naturales, fill = rutas_naturales$color_hex, size = input$size_pre2, alpha = input$alpha_pre2, color = "black") 
+        } else if (input$preCapas2 == "Circuitos") {
+            circuitos <- st_read("/srv/DataDNMYE/capas_sig/circuitos.gpkg", "circuitos") %>% st_intersection(mapa_base())
+            plot.dat$layerPre2 <- geom_sf(data =circuitos, color = "#87222b", size = input$size_pre2, alpha = input$alpha_pre2)
+        } else if (input$preCapas2 == "Áreas Protegidas") {
+            areas_protegidas <- st_read("/srv/DataDNMYE/capas_sig/areas_protegidas_ign.gpkg", "areas_protegidas_ign") %>% st_intersection(mapa_base())
+            plot.dat$layerPre2 <- geom_sf(data =areas_protegidas, fill = "#23a623", size = input$size_pre2, alpha = input$alpha_pre2)
+        } else if (input$preCapas2 == "Vías Nacionales") {
+            vias_nacionales <- st_read("/srv/DataDNMYE/capas_sig/vias_nacionales_ign.gpkg", layer = "vias_nacionales_ign") %>% st_intersection(mapa_base())
+            plot.dat$layerPre2 <- geom_sf(data =vias_nacionales, color = "#356296", size = input$size_pre2, alpha = input$alpha_pre2)
+        } else if (input$preCapas2 == "Capitales") {
+            capitales <- st_read("/srv/DataDNMYE/capas_sig/capitales.gpkg", layer = "capitales") %>% st_filter(mapa_base())
+            plot.dat$layerPre2 <- geom_sf(data =capitales, color = "black", fill = "#45261a", shape = 21, size = input$size_pre2, alpha = input$alpha_pre2)
         } 
     })
-    
+
     ancho_mapa <- InputValidator$new()
     ancho_mapa$add_rule("widthMap", sv_between(3, 12, message_fmt = "Inserte un valor entre {left} y {right}"))
     ancho_mapa$enable()
@@ -144,7 +186,7 @@ shinyServer(function(input, output, session) {
         
         mapa <- reactive({
             plot.dat$main() + plot.dat$refMain + 
-                plot.dat$layerPre + 
+                plot.dat$layerPre + plot.dat$layerPre2 +
                 plot.dat$layerSud + plot.dat$layerDep + 
                 plot.dat$layer1() + plot.dat$refLayer1() + 
                 plot.dat$layer2() + plot.dat$refLayer2() +

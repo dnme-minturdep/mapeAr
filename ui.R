@@ -59,15 +59,25 @@ shinyUI(
                             ))), 
                             
                             
-                            wellPanel("Capa predefinida",
+                            wellPanel("Capas predefinidas",
                                       fluidRow(
                             column(4,selectInput("preCapas", label = "Opciones de capa", #multiple = T, 
                                         choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos",
-                                                    "Áreas Protegidas", "Vías Nacionales"))),
-                            column(4,sliderInput("size_pre", label = "Grosor", 
-                                                 value = 1, min = 0, max = 3, step = 0.2)),
+                                                    "Áreas Protegidas", "Vías Nacionales","Capitales"),
+                                        selected = "Ninguna")),
+                            column(4,sliderInput("size_pre", label = "Tamaño", 
+                                                 value = 1, min = 0, max = 7, step = 0.2)),
                             column(4,sliderInput("alpha_pre", label = "Opacidad", 
-                                                 value = 1, min = 0, max = 1, step = 0.1)))),
+                                                 value = 1, min = 0, max = 1, step = 0.1))),
+                            fluidRow(
+                              column(4,selectInput("preCapas2", label = "Opciones de capa", #multiple = T, 
+                                                   choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos",
+                                                               "Áreas Protegidas", "Vías Nacionales","Capitales"),
+                                                   selected = "Ninguna")),
+                              column(4,sliderInput("size_pre2", label = "Tamaño", 
+                                                   value = 1, min = 0, max = 7, step = 0.2)),
+                              column(4,sliderInput("alpha_pre2", label = "Opacidad", 
+                                                   value = 1, min = 0, max = 1, step = 0.1)))),
                             
                             HTML("Antes de cargar un archivo, consulte la sección <b>¿CÓMO USAR?</b> para verificar que su base de datos cumple los requerimientos y recomendaciones."),
                             br(),br(),
