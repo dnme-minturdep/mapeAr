@@ -72,6 +72,14 @@ shinyServer(function(input, output, session) {
         }
     })
     
+    options <- c("Ninguna","Regiones","Rutas Naturales","Circuitos",
+                 "Áreas Protegidas", "Vías Nacionales","Capitales")
+    
+    observeEvent(input$preCapas,{
+        updateSelectInput(session=session, "preCapas2",
+                          choices = c("Ninguna",options[options!=input$preCapas]))
+    })
+    
     observeEvent(list(input$provincia,input$preCapas, input$size_pre, input$alpha_pre, mapa_base()),{
         if (input$preCapas == "Ninguna") {
             plot.dat$layerPre <- NULL
@@ -155,6 +163,7 @@ shinyServer(function(input, output, session) {
 
         if (value1$b()=="Click") {
             show(id = "panel2")
+            
         }
         
         if (value2$b()=="Click") {
@@ -165,8 +174,10 @@ shinyServer(function(input, output, session) {
         if (!is.null(value1$d())) {
             plot.dat$layer1 <- reactive({value1$a()})
             plot.dat$refLayer1 <- reactive({value1$c()})
+            plot.dat$refLayer1 <- reactive({value1$c()})
         } else {
             plot.dat$layer1 <- reactive(NULL)
+            plot.dat$refLayer1 <- reactive(NULL)
         }
        
         if (!is.null(value2$d())) {
@@ -174,6 +185,7 @@ shinyServer(function(input, output, session) {
             plot.dat$refLayer2 <- reactive({value2$c()})
         } else {
             plot.dat$layer2 <- reactive(NULL)
+            plot.dat$refLayer2 <- reactive(NULL)
         }
         
         if (!is.null(value3$d())) {
@@ -181,6 +193,7 @@ shinyServer(function(input, output, session) {
             plot.dat$refLayer3 <- reactive({value3$c()})
         } else {
             plot.dat$layer3 <- reactive(NULL)
+            plot.dat$refLayer3 <- reactive(NULL)
         }
     })
         

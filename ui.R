@@ -63,8 +63,7 @@ shinyUI(
                                       fluidRow(
                             column(4,selectInput("preCapas", label = "Opciones de capa", #multiple = T, 
                                         choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos",
-                                                    "Áreas Protegidas", "Vías Nacionales","Capitales"),
-                                        selected = "Ninguna")),
+                                                    "Áreas Protegidas", "Vías Nacionales","Capitales"))),
                             column(4,sliderInput("size_pre", label = "Tamaño", 
                                                  value = 1, min = 0, max = 7, step = 0.2)),
                             column(4,sliderInput("alpha_pre", label = "Opacidad", 
@@ -72,8 +71,7 @@ shinyUI(
                             fluidRow(
                               column(4,selectInput("preCapas2", label = "Opciones de capa", #multiple = T, 
                                                    choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos",
-                                                               "Áreas Protegidas", "Vías Nacionales","Capitales"),
-                                                   selected = "Ninguna")),
+                                                               "Áreas Protegidas", "Vías Nacionales","Capitales"))),
                               column(4,sliderInput("size_pre2", label = "Tamaño", 
                                                    value = 1, min = 0, max = 7, step = 0.2)),
                               column(4,sliderInput("alpha_pre2", label = "Opacidad", 
@@ -81,6 +79,7 @@ shinyUI(
                             
                             HTML("Antes de cargar un archivo, consulte la sección <b>¿CÓMO USAR?</b> para verificar que su base de datos cumple los requerimientos y recomendaciones."),
                             br(),br(),
+                            
                             wellPanel(id = "panel1", h3("CAPA 1"), capasUI("layer1")),
                             wellPanel(id = "panel2", h3("CAPA 2"), capasUI("layer2")),
                             wellPanel(id = "panel3", h3("CAPA 3"), capasUI("layer3")),

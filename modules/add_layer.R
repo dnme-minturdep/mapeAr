@@ -4,7 +4,7 @@ capasUI <- function(id) {
   ns <- NS(id)
   
   tagList(
-    
+                        
     radioButtons(ns("vector"),label = "Datos espaciales:", choices = c("Puntos","Líneas","Polígonos"), inline = T),
     
     fileInput(ns("file"), "Cargar archivo", 
@@ -34,8 +34,10 @@ capasUI <- function(id) {
       column(4,sliderInput(ns("sizeRef"), "Tamaño", min = 0.5, max = 5, step = 0.5, value = 2)))
     ),
     
-    actionButton(ns("btnCapa"),label = "Agregar capa", icon = icon("plus", lib = "font-awesome"))
-  ) 
+    #fluidRow(
+      actionButton(ns("btnCapa"),label = "Agregar capa", icon = icon("plus", lib = "font-awesome"))
+    #actionButton(ns("btnDelete"),label = "Eliminar capa", icon = icon("trash", lib = "font-awesome")))
+  )
 }
 
 ## Segmento del server
@@ -43,6 +45,8 @@ capasServer <- function(id) {
   
   moduleServer(id, function(input, output, session) {
     ns <- NS(id)
+    
+    layer <- reactiveValues(capa = NULL)
     
     ext <- reactive({
       req(input$file)
@@ -144,7 +148,7 @@ capasServer <- function(id) {
       }
     })
     
-    layer <- eventReactive(list(capa(),input$vector,input$color,input$shape,input$size, input$alpha),{
+    layer$capa <- eventReactive(list(capa(),input$vector,input$color,input$shape,input$size, input$alpha),{
       if (input$vector == "Puntos" & input$opcionColor == "Único" & input$opcionShape == "Única" & input$opcionSize == "Único") {
         geom_sf(data = capa(), color = input$color, shape = as.numeric(input$shape), size = as.numeric(input$size), alpha =input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Único" & input$opcionShape == "Única" & input$opcionSize == "Según variable") {
@@ -164,13 +168,15 @@ capasServer <- function(id) {
       } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Según variable") {
         geom_sf(data = capa(), aes_string(size = input$size), color = capa()$color_hex, shape = as.numeric(input$shape), alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(color = capa(), size = input$size,shape = input$shape), alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$color, size = input$size,shape = input$shape), alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), aes_string(color = capa(),shape = input$shape),size = as.numeric(input$size), alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$color,shape = input$shape),size = as.numeric(input$size), alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(shape = input$shape, size = input$size), color = capa()$color_hex, alpha = input$alpha)
+        list(geom_sf(data = capa(), aes_string(shape = input$shape, size = input$size), color = capa()$color_hex, alpha = input$alpha),
+             scale_color_manual(values = levels(factor(capa()$color_hex))))
       } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Según variable" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), aes_string(shape = input$shape),size = as.numeric(input$size), color = capa()$color_hex, alpha = input$alpha)
+        list(geom_sf(data = capa(), aes_string(shape = input$shape, color = input$color),size = as.numeric(input$size)),
+             scale_color_manual(values = levels(factor(capa()$color_hex))))
       } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Único") {
         geom_sf(data = capa(), size = as.numeric(input$size), color = capa()$color_hex, shape = as.numeric(input$shape), alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Único" & input$opcionShape == "Única" & input$opcionSize == "Único") {
@@ -194,9 +200,9 @@ capasServer <- function(id) {
       } else if (input$vector == "Líneas" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Único") {
         geom_sf(data = capa(), color = capa()$color_hex,size = input$size, linetype = input$shape, alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(color = capa(), size = input$size, linetype = input$shape), alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$color, size = input$size, linetype = input$shape), alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), aes_string(color = capa(),linetype = input$shape),size = as.numeric(input$size), alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$color,linetype = input$shape),size = as.numeric(input$size), alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Personalizado" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable") {
         geom_sf(data = capa(), aes_string(linetype = input$shape, size = input$size), color = capa()$color_hex, alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Personalizado" & input$opcionShape == "Según variable" & input$opcionSize == "Único") {
@@ -237,6 +243,8 @@ capasServer <- function(id) {
         geom_sf(data = capa(), aes_string(size = input$size), fill = capa()$color_hex, color = input$shape, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Personalizado" & input$opcionShape == "Único" & input$opcionSize == "Único") {
         geom_sf(data = capa(), size = as.numeric(input$size), fill = capa()$color_hex, color = input$shape, alpha = input$alpha)
+      } else {
+        NULL
       }
     })
     
@@ -263,10 +271,15 @@ capasServer <- function(id) {
       }
     }, ignoreNULL = FALSE)
     
-    return(list(a = reactive(layer()),
+    # observeEvent(input$btnDelete,{
+    #   reset(id = "file")
+    #   layer$capa <- reactive(NULL)
+    # })
+
+    return(list(a = reactive(layer$capa()),
                 b = reactive(click()),
                 c = reactive(refs()),
-                d= reactive(input$file)))
-    
+                d = reactive(input$file)
+                ))
   })
 }
