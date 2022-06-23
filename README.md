@@ -18,9 +18,9 @@ Para poder visualizar información en el mapa y descargarlos, se necesita contar
 
 Antes de cargar la base de datos a visualizar, tenga en cuenta las siguientes recomendaciones:
 
-1.  Para mapear puntos que están guardados en una base plana (del tipo .`csv, .xlsx, .tx`t, etc.) deben existir dos columnas, una con la latitud y otra con la longitud del punto (o los puntos). En el caso de que se trabaje con una base de datos espacial (formatos `.geojson, .kml, .shp`, etc.), la misma debe tener la columna geometry con la información geográfica (sean puntos, líneas o polígonos).
+1.  Para mapear puntos que están guardados en una base plana (del tipo .`csv, .xlsx, .txt`, etc.) deben existir dos columnas, una con la latitud y otra con la longitud del punto (o los puntos). En el caso de que se trabaje con una base de datos espacial (formatos `.geojson, .kml, .shp`, etc.), la misma debe tener la columna geometry con la información geográfica (sean puntos, líneas o polígonos).
 
-2.  En caso de querer asignar un color particular a una capa de datos, se debe definir una columna en la base de datos que especifique el código hexadecimal del color de cada registro, denominada`color_hex` . Por ejemplo, el negro se representa como `#000000`. Para consultar el código de los colores consulte este recurso .
+2.  En caso de querer asignar un color particular a una capa de datos, se debe definir una columna en la base de datos que especifique el código hexadecimal del color de cada registro, denominada`color_hex`. Por ejemplo, el negro se representa como `#000000`.
 
 3.  Para asignar un tamaño a los puntos en función de una variable, la misma debe ser númerica.
 
@@ -28,8 +28,8 @@ Antes de cargar la base de datos a visualizar, tenga en cuenta las siguientes re
 
 5.  Asegúrese de que la base no tengo registros faltantes (`NA` o *missing values*) en las variables que utilizará para mapear, por ejemplo en las coordenadas o la variable de color personalizado.
 
-6.  Las columnas de `latitud`y `longitud`deben estar escritas con un punto y sin comas. Por ejemplo: '`-34.657852`'
+6.  Las columnas de `latitud`y `longitud` deben estar escritas con un punto y sin comas. Por ejemplo: '`-34.657852`'
 
-7.  La plataforma permite cargar hasta cuatro capas de datos, además de la capa base del país. Una predefinida (como las áreas protegidas) y tres personalizadas. Tener en cuenta a la hora de armar el mapa, que cada capa que se suma se suporpone a la anterior. Así, la **CAPA 1** va a tapar la **CAPA BASE**, y a su vez va a quedar por debajo de la **CAPA 2**.
+7.  La plataforma permite cargar hasta cinco capas de datos, además de la capa base del país. Dos predefinidas (como las áreas protegidas) y tres personalizadas. Tener en cuenta a la hora de armar el mapa, que cada capa que se suma se suporpone a la anterior. Así, la **CAPA 1** va a tapar la **CAPA BASE**, y a su vez va a quedar por debajo de la **CAPA 2**.
 
-Se puede [descargar una base modelo](https://tableros.yvera.tur.ar/mapeAr/session/db51efd8081e9bf6a9a2ee1b7b84503b/download/downloadData?w=), con algunos aeropuertos de Argentina, para tener de referncia a la hora de estructurar los datos a **mapear**.
+Se puede [descargar una base modelo](https://tableros.yvera.tur.ar/mapeAr/session/db51efd8081e9bf6a9a2ee1b7b84503b/download/downloadData?w=), con algunos aeropuertos de Argentina, para tener de referencia a la hora de estructurar los datos a **mapear**.
