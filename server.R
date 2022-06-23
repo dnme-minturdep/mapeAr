@@ -4,6 +4,7 @@ shinyServer(function(input, output, session) {
     hide(id = "panel2")
     hide(id = "panel3")
     
+    # Creo objeto para guardar capas
     plot.dat <- reactiveValues(main=NULL, 
                                layerSud =NULL, 
                                layerDep =NULL, 
@@ -17,6 +18,7 @@ shinyServer(function(input, output, session) {
                                refLayer2 = reactive(NULL),
                                refLayer3 = reactive(NULL))
     
+    # Filtro mapa de Argentina/provincias
     mapa_base <- reactive({
         req(input$provincia)
         if (input$provincia == "País") {
@@ -26,22 +28,24 @@ shinyServer(function(input, output, session) {
         }
     })
     
-    
+    # Armo capa base
     plot.dat$main <- reactive(ggplot() +
                                   geom_sf(data = mapa_base(), fill = input$fill_arg, color = input$color_arg) +
                                   theme_void() +
                                   theme(legend.position = "none")
                               )
     
+    # Cargo capa continente Sudamérica
     observeEvent(input$sudamerica,{
         if (input$sudamerica == T) {
-            sudamerica <- read_sf("capas/sudamerica.geojson")
+            sudamerica <- read_sf("/srv/DataDNMYE/capas_sig/sudamerica.geojson")
             plot.dat$layerSud <- geom_sf(data =sudamerica, fill = "transparent")
         } else {
             plot.dat$layerSud <- NULL
         }
     })
     
+    # Cargo capa de departamentos
     observeEvent(input$deptos,{
         if (input$deptos == T & input$provincia == "País") {
             deptos <- get_geo("ARGENTINA", level = "departamento")
@@ -57,6 +61,7 @@ shinyServer(function(input, output, session) {
         }
     })
     
+    # Cargo etiquetas de provincias
     observeEvent(list(input$refProv,input$provincia, input$refProvSize, input$color_deptos),{
         req(input$provincia)
         if (input$refProv == T & input$provincia == "País") {
@@ -72,6 +77,9 @@ shinyServer(function(input, output, session) {
         }
     })
     
+    
+    # Control de opciones de capas definidas
+    
     options <- c("Ninguna","Regiones","Rutas Naturales","Circuitos",
                  "Áreas Protegidas", "Vías Nacionales","Capitales")
     
@@ -80,6 +88,7 @@ shinyServer(function(input, output, session) {
                           choices = c("Ninguna",options[options!=input$preCapas]))
     })
     
+    # Cargo capa predefinida 1
     observeEvent(list(input$provincia,input$preCapas, input$size_pre, input$alpha_pre, mapa_base()),{
         if (input$preCapas == "Ninguna") {
             plot.dat$layerPre <- NULL
@@ -111,7 +120,7 @@ shinyServer(function(input, output, session) {
         }
     })
 
-    
+    # Cargo capa predefinida 2
     observeEvent(list(input$preCapas2, input$size_pre2, input$alpha_pre2, mapa_base()),{
         if (input$preCapas2 == "Ninguna") {
             plot.dat$layerPre2 <- NULL
@@ -142,7 +151,8 @@ shinyServer(function(input, output, session) {
             plot.dat$layerPre2 <- geom_sf(data =capitales, color = "black", fill = "#45261a", shape = 21, size = input$size_pre2, alpha = input$alpha_pre2)
         } 
     })
-
+    
+    # Validadores de valores de formato del mapa descargable
     ancho_mapa <- InputValidator$new()
     ancho_mapa$add_rule("widthMap", sv_between(3, 12, message_fmt = "Inserte un valor entre {left} y {right}"))
     ancho_mapa$enable()
@@ -155,15 +165,16 @@ shinyServer(function(input, output, session) {
     dpi_mapa$add_rule("dpiMap", sv_between(50, 600, message_fmt = "Inserte un valor entre {left} y {right}"))
     dpi_mapa$enable()
     
+    # Llamo módulo de capas
     value1 <- capasServer("layer1")
     value2 <- capasServer("layer2")
     value3 <- capasServer("layer3")
     
+    # Guardo capas generadas por el módulo
     observe({
 
         if (value1$b()=="Click") {
             show(id = "panel2")
-            
         }
         
         if (value2$b()=="Click") {
@@ -171,9 +182,9 @@ shinyServer(function(input, output, session) {
             hideElement("layer3-btnCapa")
         }
         
+        
         if (!is.null(value1$d())) {
             plot.dat$layer1 <- reactive({value1$a()})
-            plot.dat$refLayer1 <- reactive({value1$c()})
             plot.dat$refLayer1 <- reactive({value1$c()})
         } else {
             plot.dat$layer1 <- reactive(NULL)
@@ -195,8 +206,10 @@ shinyServer(function(input, output, session) {
             plot.dat$layer3 <- reactive(NULL)
             plot.dat$refLayer3 <- reactive(NULL)
         }
+        
     })
         
+    # Genero mapa con todas las capas
         mapa <- reactive({
             plot.dat$main() + plot.dat$refMain + 
                 plot.dat$layerPre + plot.dat$layerPre2 +
@@ -206,9 +219,13 @@ shinyServer(function(input, output, session) {
                 plot.dat$layer3() + plot.dat$refLayer3() 
         })
         
+    # Renderizo mapa
         output$mapa <- renderPlot({
             mapa()
         })
+        
+        
+    # Control del botón de descargar mapa
         
     output$downloadMap <- downloadHandler(
         filename = function() {paste("mapear", input$formatoMapa, sep =".")},
@@ -218,10 +235,12 @@ shinyServer(function(input, output, session) {
                    dpi = as.numeric(input$dpiMap))
         }) 
     
+    
+    # Control del botón de descargar data modelo
     output$downloadData <- downloadHandler(
         filename = "aeropuertos_modelo.xlsx",
         content = function(file) {
             file.copy("capas/aeropuertos_modelo.xlsx", file)
-        }) 
+        })
     
 })

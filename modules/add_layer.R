@@ -4,7 +4,6 @@ capasUI <- function(id) {
   ns <- NS(id)
   
   tagList(
-                        
     radioButtons(ns("vector"),label = "Datos espaciales:", choices = c("Puntos","Líneas","Polígonos"), inline = T),
     
     fileInput(ns("file"), "Cargar archivo", 
@@ -34,9 +33,8 @@ capasUI <- function(id) {
       column(4,sliderInput(ns("sizeRef"), "Tamaño", min = 0.5, max = 5, step = 0.5, value = 2)))
     ),
     
-    #fluidRow(
-      actionButton(ns("btnCapa"),label = "Agregar capa", icon = icon("plus", lib = "font-awesome"))
-    #actionButton(ns("btnDelete"),label = "Eliminar capa", icon = icon("trash", lib = "font-awesome")))
+    actionButton(ns("btnCapa"),label = "Agregar capa", icon = icon("plus", lib = "font-awesome"))
+   
   )
 }
 
@@ -48,11 +46,13 @@ capasServer <- function(id) {
     
     layer <- reactiveValues(capa = NULL)
     
+    # Chequeo tipo de archivo cargado
     ext <- reactive({
       req(input$file)
       ext <- tools::file_ext(input$file$name)
     })
     
+    # Levanto datos
     capa <- eventReactive(list(input$file,ext()),{
       req(input$file)
       if (input$vector == "Puntos" & ext() == "xlsx") {
@@ -93,6 +93,7 @@ capasServer <- function(id) {
       data
     })
     
+    # Actualizo controles (selects)
     observeEvent(capa(),{
       updateSelectInput(inputId = "referencias",choices = c("Ninguna",colnames(capa() %>% st_set_geometry(NULL))))
     })
@@ -148,7 +149,8 @@ capasServer <- function(id) {
       }
     })
     
-    layer$capa <- eventReactive(list(capa(),input$vector,input$color,input$shape,input$size, input$alpha),{
+    # Armo capa según opciones del usuario
+    layer$capa <- eventReactive(list(input$file,capa(),input$vector,input$color,input$shape,input$size, input$alpha),{
       if (input$vector == "Puntos" & input$opcionColor == "Único" & input$opcionShape == "Única" & input$opcionSize == "Único") {
         geom_sf(data = capa(), color = input$color, shape = as.numeric(input$shape), size = as.numeric(input$size), alpha =input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Único" & input$opcionShape == "Única" & input$opcionSize == "Según variable") {
@@ -248,6 +250,7 @@ capasServer <- function(id) {
       }
     })
     
+    # Genero capa con referencias
     refs <- eventReactive(list(input$referencias, input$sizeRef, input$labelRef),{
       if (input$referencias=="Ninguna") {
         return(NULL)
@@ -263,6 +266,7 @@ capasServer <- function(id) {
       
     })
     
+    # Control de botón para agregar capa
     click <- eventReactive(input$btnCapa, {
       if(input$btnCapa){
         "Click"
@@ -271,11 +275,9 @@ capasServer <- function(id) {
       }
     }, ignoreNULL = FALSE)
     
-    # observeEvent(input$btnDelete,{
-    #   reset(id = "file")
-    #   layer$capa <- reactive(NULL)
-    # })
 
+    
+    # Envío capa y valores al server
     return(list(a = reactive(layer$capa()),
                 b = reactive(click()),
                 c = reactive(refs()),

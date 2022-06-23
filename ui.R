@@ -1,6 +1,5 @@
 shinyUI(
-    navbarPage(title = div(  #### NavBar #####
-                              div(
+    navbarPage(title = div(div(
                                 id = "img-id",
                                 tags$a(img(src = "https://tableros.yvera.tur.ar/recursos/logo_sinta.png",
                                            width = 150),href="https://www.yvera.tur.ar/sinta/",target = '_blank'
@@ -20,6 +19,8 @@ shinyUI(
                                      max-height: 750px;",
                                      useShinyjs(),
                                      br(),
+                                     
+                                     # Panel de capa base
                             wellPanel(h3("CAPA BASE"),
                             fluidRow(
                               column(selectInput("provincia",
@@ -58,9 +59,9 @@ shinyUI(
                                                  value = 1, min = 0.5, max = 7, step = 0.5))
                             ))), 
                             
-                            
+                            # Panel de capas predefinidas
                             wellPanel("Capas predefinidas",
-                                      fluidRow(
+                            fluidRow(
                             column(4,selectInput("preCapas", label = "Opciones de capa", #multiple = T, 
                                         choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos",
                                                     "Áreas Protegidas", "Vías Nacionales","Capitales"))),
@@ -80,10 +81,12 @@ shinyUI(
                             HTML("Antes de cargar un archivo, consulte la sección <b>¿CÓMO USAR?</b> para verificar que su base de datos cumple los requerimientos y recomendaciones."),
                             br(),br(),
                             
+                            # Paneles de capas personalizadas
                             wellPanel(id = "panel1", h3("CAPA 1"), capasUI("layer1")),
                             wellPanel(id = "panel2", h3("CAPA 2"), capasUI("layer2")),
                             wellPanel(id = "panel3", h3("CAPA 3"), capasUI("layer3")),
                           
+                            # Panel de descarga
                             fluidRow(
                               column(6,radioButtons("formatoMapa", label = "Exportar en", 
                                          choices = c("png","jpg","svg","pdf"), inline = T)),
@@ -94,6 +97,7 @@ shinyUI(
                             
                             downloadButton(outputId = 'downloadMap', label = 'Descargar mapa')),
                         
+                        # Panel de previsualización
                         mainPanel(width = 6,
                                   plotOutput("mapa", width = 600, height = 700))
                         )
