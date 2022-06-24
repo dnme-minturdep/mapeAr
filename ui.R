@@ -112,10 +112,12 @@ shinyUI(
                         tags$p(tags$b("      • Líneas"),": una sucesión de puntos que forma una geometría con continuidad sobre el espacio. Un ejemplo lo conforman las vías terrestres, como la Ruta Nacional 40."), 
                         tags$p(tags$b("      • Polígonos"),": son geometrías cerradas, es decir, tienen límites específicos como un país, una provincia o las parques nacionales.")
                         ),
+                        h5("Para crear tus bases de datos espaciales visitá el siguiente recurso:",  tags$a(href="https://geojson.io/", "geojson.io"),". Podés marcar geometrías en el territorio de Argentina, descargarlas y subirlas en la plataforma."),
+                        
                         br(),
                         h3("MAPEANDO DATOS"),
                         h5("Antes de cargar la base de datos a visualizar, tenga en cuenta las siguientes recomendaciones:"),
-                        h5(tags$ul(tags$p("  1. Para mapear puntos que están guardados en una base plana (del tipo .csv, .xlsx, .txt, etc.) deben existir dos columnas, una con la",tags$b("latitud"), "y otra con la", tags$b("longitud"), "del punto (o los puntos). En el caso de que se trabaje con una base de datos espacial (formatos .geojson, .kml, .shp, etc.), la misma debe tener la columna", tags$b("geometry"), "con la información geográfica (sean puntos, líneas o polígonos)."))),
+                        h5(tags$ul(tags$p("  1. Para mapear puntos que están guardados en una base plana (del tipo .csv, .xlsx, .txt, etc.) deben existir dos columnas, una con la",tags$b("latitud"), "y otra con la", tags$b("longitud"), "del punto (o los puntos). En el caso de que se trabaje con una base de datos espacial (formatos .geojson, .kml, etc.), la misma debe tener la columna", tags$b("geometry"), "con la información geográfica (sean puntos, líneas o polígonos)."))),
                         
                         h5(tags$ul(tags$p("  2. En caso de querer asignar un color particular a una capa de datos, se debe definir una columna en la base de datos que especifique el código hexadecimal del color de cada registro, denominada", tags$b("color_hex"),". Por ejemplo, el negro se representa como #000000. Para consultar el código de los colores consulte este",  tags$a(href="https://htmlcolorcodes.com/es/", "recurso"),"."))),
                         
@@ -127,7 +129,7 @@ shinyUI(
                         
                         h5(tags$ul(tags$p("  6. Las columnas de latitud y longitud deben estar escritas con un punto y sin comas. Por ejemplo: '-34.657852'"))),
                         
-                        h5(tags$ul(tags$p("  7. La plataforma permite cargar hasta cuatro capas de datos, además de la capa base del país. Una predefinida (como las áreas protegidas) y tres personalizadas. Tener en cuenta a la hora de armar el mapa, que cada capa que se suma se suporpone a la anterior. Así, la CAPA 1 va a tapar la CAPA BASE, y a su vez va a quedar por debajo de la CAPA 2."))),
+                        h5(tags$ul(tags$p("  7. La plataforma permite cargar hasta cinco capas de datos, además de la capa base del país. Dos predefinidas (como las áreas protegidas) y tres personalizadas. Tener en cuenta a la hora de armar el mapa, que cada capa que se suma se suporpone a la anterior. Así, la CAPA 1 va a tapar la CAPA BASE, y a su vez va a quedar por debajo de la CAPA 2."))),
                         
                         h5(tags$ul(tags$p("A continuación puede descargar una base modelo, con algunos aeropuertos de Argentina, para tener de referncia a la hora de estructurar los datos a mapear."))),
                         
