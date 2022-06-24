@@ -18,7 +18,7 @@ Para poder visualizar información en el mapa y descargarlos, se necesita contar
 
 Antes de cargar la base de datos a visualizar, tenga en cuenta las siguientes recomendaciones:
 
-1.  Para mapear puntos que están guardados en una base plana (del tipo .`csv, .xlsx, .txt`, etc.) deben existir dos columnas, una con la latitud y otra con la longitud del punto (o los puntos). En el caso de que se trabaje con una base de datos espacial (formatos `.geojson, .kml, .shp`, etc.), la misma debe tener la columna geometry con la información geográfica (sean puntos, líneas o polígonos).
+1.  Para mapear puntos que están guardados en una base plana (del tipo .`csv, .xlsx, .txt`, etc.) deben existir dos columnas, una con la latitud y otra con la longitud del punto (o los puntos). En el caso de que se trabaje con una base de datos espacial (formatos `.geojson, .kml`, etc.), la misma debe tener la columna geometry con la información geográfica (sean puntos, líneas o polígonos).
 
 2.  En caso de querer asignar un color particular a una capa de datos, se debe definir una columna en la base de datos que especifique el código hexadecimal del color de cada registro, denominada`color_hex`. Por ejemplo, el negro se representa como `#000000`.
 
