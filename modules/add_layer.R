@@ -71,7 +71,7 @@ capasServer <- function(id) {
             janitor::clean_names()
         }
       } else if (input$vector == "Puntos" & ext() != "xlsx") {
-        test <- data.table::fread(input$file$datapath) %>% 
+        test <- read_sf(input$file$datapath) %>% 
           janitor::clean_names()
         if ("latitud" %in% colnames(test)) {
           data <- data.table::fread(input$file$datapath) %>% 
@@ -83,7 +83,8 @@ capasServer <- function(id) {
             st_as_sf(coords = c("longitud", "latitud"), crs = 4326)
         } else {
           data <- read_sf(input$file$datapath) %>% 
-            janitor::clean_names()
+            janitor::clean_names() %>% 
+            st_as_sf(wkt = "geometry", crs = 4326)
         }
       } else {
         data <- read_sf(input$file$datapath) %>% 
