@@ -240,7 +240,7 @@ shinyServer(function(input, output, session) {
     output$downloadData <- downloadHandler(
         filename = "aeropuertos_modelo.xlsx",
         content = function(file) {
-            file.copy("capas/aeropuertos_modelo.xlsx", file)
+            file.copy("data_modelo/aeropuertos_modelo.xlsx", file)
         })
     
 })
