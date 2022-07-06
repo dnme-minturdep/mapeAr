@@ -10,6 +10,10 @@ shinyUI(
                windowTitle = "MapeAr", 
                collapsible = TRUE,
                tabPanel("MAPA",
+                        
+                        useWaiter(),
+                        waiter_show_on_load(html = loading_screen, color = "white"),
+                        
                         div(
                           tags$head(
                             includeCSS("style.css")

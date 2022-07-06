@@ -7,6 +7,7 @@ library(shinyjs) # Easily Improve the User Experience of Your Shiny Apps in Seco
 library(shinyvalidate) # Input Validation for Shiny Apps, CRAN v0.1.2
 library(shinyWidgets) # Custom Inputs Widgets for Shiny, CRAN v0.7.0
 library(colourpicker) # A Colour Picker Tool for Shiny and for Selecting Colours in Plots, CRAN v1.1.1
+library(waiter) # Loading screens for Shiny
 
 # Cargo mapa de Argentina
 mapa_arg <- get_geo("ARGENTINA", level = "provincia") %>% 
@@ -17,3 +18,7 @@ mapa_arg <- get_geo("ARGENTINA", level = "provincia") %>%
 # Cargo módulo de capas
 source("modules/add_layer.R", encoding = "UTF-8")
 
+loading_screen <- tagList(
+  h3("Cargando...", style = "color:gray;"),
+  img(src = "https://tableros.yvera.tur.ar/recursos/logo_mintur_color.png", height = "200px")
+)
