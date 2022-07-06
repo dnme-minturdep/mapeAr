@@ -18,6 +18,10 @@ shinyServer(function(input, output, session) {
                                refLayer2 = reactive(NULL),
                                refLayer3 = reactive(NULL))
     
+    Sys.sleep(2)
+    
+    waiter_hide()
+    
     # Filtro mapa de Argentina/provincias
     mapa_base <- reactive({
         req(input$provincia)
