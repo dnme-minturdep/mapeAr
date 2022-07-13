@@ -67,7 +67,7 @@ shinyUI(
                             wellPanel("Capas predefinidas",
                             fluidRow(
                             column(4,selectInput("preCapas", label = "Opciones de capa", #multiple = T, 
-                                        choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos",
+                                        choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos", "Rutas Escénicas",
                                                     "Áreas Protegidas", "Vías Nacionales","Capitales"))),
                             column(4,sliderInput("size_pre", label = "Tamaño", 
                                                  value = 1, min = 0, max = 7, step = 0.2)),
@@ -75,7 +75,7 @@ shinyUI(
                                                  value = 1, min = 0, max = 1, step = 0.1))),
                             fluidRow(
                               column(4,selectInput("preCapas2", label = "Opciones de capa", #multiple = T, 
-                                                   choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos",
+                                                   choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos", "Rutas Escénicas",
                                                                "Áreas Protegidas", "Vías Nacionales","Capitales"))),
                               column(4,sliderInput("size_pre2", label = "Tamaño", 
                                                    value = 1, min = 0, max = 7, step = 0.2)),
