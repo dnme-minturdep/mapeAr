@@ -103,10 +103,7 @@ shinyUI(
                         
                         # Panel de previsualización
                         mainPanel(width = 6,
-                                  plotOutput("mapa", width = 600, height = 700),
-                                  column(tags$a(img(src = "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-                                             width = 50),href="https://github.com/dnme-minturdep/"), 
-                                         width = 1, offset = 11))
+                                  plotOutput("mapa", width = 600, height = 700))
                         )
                         ),
                tabPanel("¿CÓMO USAR?",
@@ -141,6 +138,10 @@ shinyUI(
                         h5(tags$ul(tags$p("A continuación puede descargar una base modelo, con algunos aeropuertos de Argentina, para tener de referncia a la hora de estructurar los datos a mapear."))),
                         
                         downloadButton(outputId = 'downloadData', label = 'Descargar base'),br(),br()
-               )
+               ),
+               
+               column(tags$footer(tags$a(img(src = "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+                                 width = 50),href="https://github.com/dnme-minturdep/")), 
+                      width = 1, offset = 11)
                )
     )
