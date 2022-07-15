@@ -103,7 +103,10 @@ shinyUI(
                         
                         # Panel de previsualización
                         mainPanel(width = 6,
-                                  plotOutput("mapa", width = 600, height = 700))
+                                  plotOutput("mapa", width = 600, height = 700),
+                                  column(tags$a(img(src = "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+                                             width = 50),href="https://github.com/dnme-minturdep/"), 
+                                         width = 1, offset = 11))
                         )
                         ),
                tabPanel("¿CÓMO USAR?",
