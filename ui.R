@@ -67,7 +67,7 @@ shinyUI(
                             wellPanel("Capas predefinidas",
                             fluidRow(
                             column(4,selectInput("preCapas", label = "Opciones de capa", #multiple = T, 
-                                        choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos",
+                                        choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos", "Rutas Escénicas",
                                                     "Áreas Protegidas", "Vías Nacionales","Capitales"))),
                             column(4,sliderInput("size_pre", label = "Tamaño", 
                                                  value = 1, min = 0, max = 7, step = 0.2)),
@@ -75,7 +75,7 @@ shinyUI(
                                                  value = 1, min = 0, max = 1, step = 0.1))),
                             fluidRow(
                               column(4,selectInput("preCapas2", label = "Opciones de capa", #multiple = T, 
-                                                   choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos",
+                                                   choices = c("Ninguna","Regiones","Rutas Naturales","Circuitos", "Rutas Escénicas",
                                                                "Áreas Protegidas", "Vías Nacionales","Capitales"))),
                               column(4,sliderInput("size_pre2", label = "Tamaño", 
                                                    value = 1, min = 0, max = 7, step = 0.2)),
@@ -138,6 +138,10 @@ shinyUI(
                         h5(tags$ul(tags$p("A continuación puede descargar una base modelo, con algunos aeropuertos de Argentina, para tener de referncia a la hora de estructurar los datos a mapear."))),
                         
                         downloadButton(outputId = 'downloadData', label = 'Descargar base'),br(),br()
-               )
+               ),
+               
+               column(tags$footer(tags$a(img(src = "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+                                 width = 50),href="https://github.com/dnme-minturdep/")), 
+                      width = 1, offset = 11)
                )
     )
