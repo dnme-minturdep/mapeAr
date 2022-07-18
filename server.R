@@ -97,7 +97,7 @@ shinyServer(function(input, output, session) {
         if (input$preCapas == "Ninguna") {
             plot.dat$layerPre <- NULL
         } else if (input$preCapas == "Regiones") {
-            regiones <- st_read("/srv/DataDNMYE/capas_sig/regiones.gpkg", layer = "regiones") %>% st_filter(mapa_base())
+            regiones <- st_read("/srv/DataDNMYE/capas_sig/regiones_turisticas.gpkg", layer = "regiones_turisticas") %>% st_filter(mapa_base())
             plot.dat$layerPre <- geom_sf(data =regiones, aes(fill = region), size = input$size_pre, alpha = input$alpha_pre)
         } else if (input$preCapas == "Rutas Naturales") {
             if (input$provincia == "País") {
@@ -134,7 +134,7 @@ shinyServer(function(input, output, session) {
         if (input$preCapas2 == "Ninguna") {
             plot.dat$layerPre2 <- NULL
         } else if (input$preCapas2 == "Regiones") {
-            regiones <- st_read("/srv/DataDNMYE/capas_sig/regiones.gpkg", layer = "regiones") %>% st_filter(mapa_base())
+            regiones <- st_read("/srv/DataDNMYE/capas_sig/regiones_turisticas.gpkg", layer = "regiones_turisticas") %>% st_filter(mapa_base())
             plot.dat$layerPre2 <- geom_sf(data =regiones, aes(fill = region), size = input$size_pre2, alpha = input$alpha_pre2)
         } else if (input$preCapas2 == "Rutas Naturales") {
             if (input$provincia == "País") {
@@ -153,7 +153,7 @@ shinyServer(function(input, output, session) {
         } else if (input$preCapas2 == "Rutas Escénicas") {
             rutas_escenicas <- st_read("/srv/DataDNMYE/capas_sig/rutas_escenicas.gpkg", "rutas_escenicas") %>% 
                 st_intersection(mapa_base())
-            plot.dat$layerPre2 <- geom_sf(data =rutas_escenicas, ,color = "#333057", size = input$size_pre2, alpha = input$alpha_pre2)   
+            plot.dat$layerPre2 <- geom_sf(data =rutas_escenicas, color = "#333057", size = input$size_pre2, alpha = input$alpha_pre2)   
         } else if (input$preCapas2 == "Áreas Protegidas") {
             areas_protegidas <- st_read("/srv/DataDNMYE/capas_sig/areas_protegidas_ign.gpkg", "areas_protegidas_ign") %>% 
                 st_intersection(mapa_base())
