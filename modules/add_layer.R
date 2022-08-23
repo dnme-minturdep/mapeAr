@@ -55,11 +55,11 @@ capasServer <- function(id) {
     # Levanto datos
     capa <- eventReactive(list(input$file,ext()),{
       req(input$file)
-      if (input$vector == "Puntos" & ext() == "xlsx") {
-        test <- readxl::read_xlsx(input$file$datapath) %>% 
+      if (input$vector == "Puntos" & ext() %in% c("xlsx","xls")) {
+        test <- readxl::read_excel(input$file$datapath) %>% 
           janitor::clean_names()
         if ("latitud" %in% colnames(test)) {
-          data <- readxl::read_xlsx(input$file$datapath) %>% 
+          data <- readxl::read_excel(input$file$datapath) %>% 
             janitor::clean_names() %>%
             mutate(latitud = str_replace(latitud, ",", "."),
                    longitud = str_replace(longitud, ",", "."),
@@ -70,7 +70,7 @@ capasServer <- function(id) {
           data <- read_sf(input$file$datapath) %>% 
             janitor::clean_names()
         }
-      } else if (input$vector == "Puntos" & ext() != "xlsx") {
+      } else if (input$vector == "Puntos" & !ext() %in% c("xlsx","xls")) {
         test <- read_sf(input$file$datapath) %>% 
           janitor::clean_names()
         if ("latitud" %in% colnames(test)) {
