@@ -101,7 +101,7 @@ shinyServer(function(input, output, session) {
                 filter(ruta_natural %in% input$ruta_natural) 
             
         } else {
-            rutas_naturales_base <- rn %>% 
+            rutas_naturales_base <- rutas_naturales_base %>% 
                 filter(ruta_natural %in% input$ruta_natural) %>% 
                 st_intersection(mapa_base() %>% summarise(geometry = st_union(geometry)))
         }
