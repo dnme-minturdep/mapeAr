@@ -144,7 +144,7 @@ capasServer <- function(id) {
     
     observeEvent(list(input$opcionSize, input$vector),{
       if (input$opcionSize == "Único") {
-        updateSelectInput(inputId = "size", choices = c(0.1,0.5,1:7))
+        updateSelectInput(inputId = "size", choices = c(0.1,0.5,1:7), selected = 3)
       } else if (input$opcionSize == "Según variable") {
         updateSelectInput(inputId = "size", choices = colnames(capa() %>% select_if(is.numeric) %>% st_set_geometry(NULL)))
       }
@@ -268,19 +268,19 @@ capasServer <- function(id) {
     })
     
     # Control de botón para agregar capa
-    click <- eventReactive(input$btnCapa, {
-      if(input$btnCapa){
-        "Click"
-      } else {
-        "No click"
-      }
-    }, ignoreNULL = FALSE)
+    # click <- eventReactive(input$btnCapa, {
+    #   if(input$btnCapa){
+    #     "Click"
+    #   } else {
+    #     "No click"
+    #   }
+    # }, ignoreNULL = FALSE)
     
 
     
     # Envío capa y valores al server
     return(list(a = reactive(layer$capa()),
-                b = reactive(click()),
+                #b = reactive(click()),
                 c = reactive(refs()),
                 d = reactive(input$file)
                 ))

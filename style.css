@@ -27,6 +27,7 @@
 
 .well {
    padding: 8px 16px 12px 16px;
+   background-color: white;
 }
 
 
@@ -60,13 +61,11 @@ div.outer {
     padding-top: 50px;
   }
 
-  h1, h2, h3 { font-weight: 400; 
+  h1, h2, h3, h4 { font-weight: 400; 
     font-family: 'Encode Sans Normal', Helvetica;
-    color: #37BBED;}
-
-  h4 { font-weight: 400; 
-    font-family: 'Encode Sans Normal', Helvetica;
-       color: black;}
+    color: #37BBED;
+    
+  }
 
   li {
     color: white;
