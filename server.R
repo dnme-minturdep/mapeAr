@@ -1,8 +1,8 @@
 
 shinyServer(function(input, output, session) {
     
-    hide(id = "panel2")
-    hide(id = "panel3")
+    # hide(id = "panel2")
+    # hide(id = "panel3")
     
     # Creo objeto para guardar capas
     plot.dat <- reactiveValues(main=NULL, 
