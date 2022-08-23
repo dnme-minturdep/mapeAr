@@ -7,9 +7,11 @@ shinyServer(function(input, output, session) {
     # Creo objeto para guardar capas
     plot.dat <- reactiveValues(main=NULL, 
                                layerSud =NULL, 
-                               layerDep =NULL, 
+                               layerDep =NULL,
+                               layerPre0 = reactive(NULL),
                                layerPre =NULL,
                                layerPre2 = NULL,
+                               layerRuta = reactive(NULL),
                                layer1= reactive(NULL), 
                                layer2= reactive(NULL),
                                layer3= reactive(NULL),
@@ -81,6 +83,52 @@ shinyServer(function(input, output, session) {
         }
     })
     
+    # Capa de rutas naturales
+    capa_rutas <- reactive({
+        req(input$ruta_natural)
+        if(input$ruta_natural == "Todas" & input$provincia == "País") {
+            
+            rutas_naturales_base <- rutas_naturales_base 
+            
+        } else if(input$ruta_natural == "Todas" & input$provincia != "País") {
+            
+            rutas_naturales_base <- rutas_naturales_base %>% 
+                st_intersection(mapa_base() %>% summarise(geometry = st_union(geometry)))
+            
+        } else if(input$ruta_natural != "Todas" & input$provincia == "País") {
+            
+            rutas_naturales_base <- rutas_naturales_base %>% 
+                filter(ruta_natural %in% input$ruta_natural) 
+            
+        } else {
+            rutas_naturales_base <- rn %>% 
+                filter(ruta_natural %in% input$ruta_natural) %>% 
+                st_intersection(mapa_base() %>% summarise(geometry = st_union(geometry)))
+        }
+        
+    })
+ 
+    plot.dat$layerRuta <- reactive(geom_sf(data = capa_rutas(), 
+                                           fill = capa_rutas()$color_hex, alpha = input$alpha_rn))
+    
+    
+    # Rutas naturales grises de fondo
+    rutas_naturales_fondo <- reactive({
+        req(input$ruta_natural)
+    if (input$rutas_gris == T & input$provincia != "País" & input$ruta_natural != "Todas") {
+        rutas_naturales <- rutas_naturales_base %>%
+           st_intersection(mapa_base()) %>% 
+            filter(!ruta_natural %in% input$ruta_natural)
+    } else if (input$rutas_gris == T & input$provincia == "País" & input$ruta_natural != "Todas") {
+        rutas_naturales <- rutas_naturales_base %>%
+            st_intersection(mapa_base() %>% summarise(geometry = st_union(geometry))) %>% 
+            filter(!ruta_natural %in% input$ruta_natural)
+    } else {
+        rutas_naturales <- NULL
+    } 
+    })
+    
+    plot.dat$layerPre0 <- reactive(geom_sf(data = rutas_naturales_fondo(), fill = "#E7E7E7"))
     
     # Control de opciones de capas definidas
     
@@ -99,16 +147,6 @@ shinyServer(function(input, output, session) {
         } else if (input$preCapas == "Regiones") {
             regiones <- st_read("/srv/DataDNMYE/capas_sig/regiones_turisticas.gpkg", layer = "regiones_turisticas") %>% st_filter(mapa_base())
             plot.dat$layerPre <- geom_sf(data =regiones, aes(fill = region), size = input$size_pre, alpha = input$alpha_pre)
-        } else if (input$preCapas == "Rutas Naturales") {
-            if (input$provincia == "País") {
-                rutas_naturales <- st_read("/srv/DataDNMYE/capas_sig/rutas_naturales.gpkg", "rutas_naturales") %>%
-                    distinct(name, .keep_all = T)
-            } else {
-                rutas_naturales <- st_read("/srv/DataDNMYE/capas_sig/rutas_naturales.gpkg", "rutas_naturales") %>%
-                    filter(provincia %in% input$provincia) %>% 
-                    st_intersection(mapa_base())
-            }
-            plot.dat$layerPre <- geom_sf(data =rutas_naturales, fill = rutas_naturales$color_hex, size = input$size_pre, alpha = input$alpha_pre) 
         } else if (input$preCapas == "Circuitos") {
             circuitos <- st_read("/srv/DataDNMYE/capas_sig/circuitos.gpkg", "circuitos") %>% 
                     st_intersection(mapa_base())
@@ -136,16 +174,6 @@ shinyServer(function(input, output, session) {
         } else if (input$preCapas2 == "Regiones") {
             regiones <- st_read("/srv/DataDNMYE/capas_sig/regiones_turisticas.gpkg", layer = "regiones_turisticas") %>% st_filter(mapa_base())
             plot.dat$layerPre2 <- geom_sf(data =regiones, aes(fill = region), size = input$size_pre2, alpha = input$alpha_pre2)
-        } else if (input$preCapas2 == "Rutas Naturales") {
-            if (input$provincia == "País") {
-                rutas_naturales <- st_read("/srv/DataDNMYE/capas_sig/rutas_naturales.gpkg", "rutas_naturales") %>%
-                    distinct(name, .keep_all = T)
-            } else {
-                rutas_naturales <- st_read("/srv/DataDNMYE/capas_sig/rutas_naturales.gpkg", "rutas_naturales") %>%
-                    filter(provincia %in% input$provincia) %>% 
-                    st_intersection(mapa_base())
-            }
-            plot.dat$layerPre2 <- geom_sf(data =rutas_naturales, fill = rutas_naturales$color_hex, size = input$size_pre2, alpha = input$alpha_pre2) 
         } else if (input$preCapas2 == "Circuitos") {
             circuitos <- st_read("/srv/DataDNMYE/capas_sig/circuitos.gpkg", "circuitos") %>% 
                     st_intersection(mapa_base())
@@ -190,14 +218,14 @@ shinyServer(function(input, output, session) {
     # Guardo capas generadas por el módulo
     observe({
 
-        if (value1$b()=="Click") {
-            show(id = "panel2")
-        }
-        
-        if (value2$b()=="Click") {
-            show(id = "panel3")
-            hideElement("layer3-btnCapa")
-        }
+        # if (value1$b()=="Click") {
+        #     show(id = "panel2")
+        # }
+        # 
+        # if (value2$b()=="Click") {
+        #     show(id = "panel3")
+        #     hideElement("layer3-btnCapa")
+        # }
         
         
         if (!is.null(value1$d())) {
@@ -229,6 +257,8 @@ shinyServer(function(input, output, session) {
     # Genero mapa con todas las capas
         mapa <- reactive({
             plot.dat$main() + plot.dat$refMain + 
+                plot.dat$layerRuta() +
+                plot.dat$layerPre0() + 
                 plot.dat$layerPre + plot.dat$layerPre2 +
                 plot.dat$layerSud + plot.dat$layerDep + 
                 plot.dat$layer1() + plot.dat$refLayer1() + 
