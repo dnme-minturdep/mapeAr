@@ -70,6 +70,7 @@ capasServer <- function(id) {
           data <- read_sf(input$file$datapath) %>% 
             janitor::clean_names()
         }
+        rm(test)
       } else if (input$vector == "Puntos" & !ext() %in% c("xlsx","xls")) {
         test <- read_sf(input$file$datapath) %>% 
           janitor::clean_names()
@@ -86,11 +87,11 @@ capasServer <- function(id) {
             janitor::clean_names() %>% 
             st_as_sf(wkt = "geometry", crs = 4326)
         }
+        rm(test)
       } else {
         data <- read_sf(input$file$datapath) %>% 
           janitor::clean_names()
       }
-      rm(test)
       data
     })
     

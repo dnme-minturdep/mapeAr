@@ -149,7 +149,7 @@ shinyServer(function(input, output, session) {
             plot.dat$layerPre <- geom_sf(data =regiones, aes(fill = region), size = input$size_pre, alpha = input$alpha_pre)
         } else if (input$preCapas == "Circuitos") {
             circuitos <- st_read("/srv/DataDNMYE/capas_sig/circuitos.gpkg", "circuitos") %>% 
-                    st_intersection(mapa_base())
+                    st_filter(mapa_base())
             plot.dat$layerPre <- geom_sf(data =circuitos, color = "#87222b", size = input$size_pre, alpha = input$alpha_pre)
         } else if (input$preCapas == "Rutas Escénicas") {
             rutas_escenicas <- st_read("/srv/DataDNMYE/capas_sig/rutas_escenicas.gpkg", "rutas_escenicas") %>% 
@@ -176,7 +176,7 @@ shinyServer(function(input, output, session) {
             plot.dat$layerPre2 <- geom_sf(data =regiones, aes(fill = region), size = input$size_pre2, alpha = input$alpha_pre2)
         } else if (input$preCapas2 == "Circuitos") {
             circuitos <- st_read("/srv/DataDNMYE/capas_sig/circuitos.gpkg", "circuitos") %>% 
-                    st_intersection(mapa_base())
+                st_filter(mapa_base())
             plot.dat$layerPre2 <- geom_sf(data =circuitos, color = "#87222b", size = input$size_pre2, alpha = input$alpha_pre2)
         } else if (input$preCapas2 == "Rutas Escénicas") {
             rutas_escenicas <- st_read("/srv/DataDNMYE/capas_sig/rutas_escenicas.gpkg", "rutas_escenicas") %>% 
