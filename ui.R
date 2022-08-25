@@ -64,6 +64,7 @@ shinyUI(
                                                                        value = 1, min = 0.5, max = 7, step = 0.5))
                                                 )))), 
                             
+                            # Panel de capa Rutas naturales
                             bsCollapsePanel(h4("CAPA RUTAS NATURALES"),
                                       selectInput("ruta_natural",
                                                   label = "Agregar rutas", 
