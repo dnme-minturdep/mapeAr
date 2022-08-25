@@ -154,7 +154,7 @@ shinyUI(
              
              h5(tags$ul(tags$p("  6. Las columnas de latitud y longitud deben estar escritas con un punto y sin comas. Por ejemplo: '-34.657852'"))),
              
-             h5(tags$ul(tags$p("  7. La plataforma permite cargar hasta cinco capas de datos, además de la capa base del país. Dos predefinidas (como las áreas protegidas) y tres personalizadas. Tener en cuenta a la hora de armar el mapa, que cada capa que se suma se suporpone a la anterior. Así, la CAPA 1 va a tapar la CAPA BASE, y a su vez va a quedar por debajo de la CAPA 2."))),
+             h5(tags$ul(tags$p("  7. La plataforma permite cargar hasta seis capas de datos, además de la capa base del país. Una de rutas naturales, dos predefinidas (como las áreas protegidas) y tres personalizadas. Tener en cuenta a la hora de armar el mapa, que cada capa que se suma se suporpone a la anterior. Así, la CAPA 1 va a tapar la CAPA BASE, y a su vez va a quedar por debajo de la CAPA 2."))),
              
              h5(tags$ul(tags$p("A continuación puede descargar una base modelo, con algunos aeropuertos de Argentina, para tener de referncia a la hora de estructurar los datos a mapear."))),
              
