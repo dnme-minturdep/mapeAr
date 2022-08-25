@@ -75,7 +75,7 @@ shinyUI(
                                                              value = 1, min = 0, max = 1, step = 0.1)),
                                         column(6,  
                                                sliderInput("size_rn", label = "Grosor", 
-                                                           value = 1, min = 0, max = 1, step = 0.1))
+                                                           value = 1, min = 0, max = 3, step = 0.2))
                                       ),
                                       
                                       checkboxInput("rutas_gris", 
