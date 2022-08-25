@@ -74,10 +74,12 @@ shinyUI(
                                         column(6,sliderInput("alpha_rn", label = "Opacidad", 
                                                              value = 1, min = 0, max = 1, step = 0.1)),
                                         column(6,  
-                                               br(),
-                                               checkboxInput("rutas_gris", 
-                                                             label = "Completar rutas en gris", value = F))
-                                      )
+                                               sliderInput("size_rn", label = "Grosor", 
+                                                           value = 1, min = 0, max = 1, step = 0.1))
+                                      ),
+                                      
+                                      checkboxInput("rutas_gris", 
+                                                    label = "Completar rutas en gris", value = F)
                             ),
                             
                             # Panel de capas predefinidas

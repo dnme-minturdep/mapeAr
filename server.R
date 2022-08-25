@@ -109,7 +109,9 @@ shinyServer(function(input, output, session) {
     })
  
     plot.dat$layerRuta <- reactive(geom_sf(data = capa_rutas(), 
-                                           fill = capa_rutas()$color_hex, alpha = input$alpha_rn))
+                                           fill = capa_rutas()$color_hex, 
+                                           alpha = input$alpha_rn,
+                                           size = input$size_rn))
     
     
     # Rutas naturales grises de fondo
@@ -128,7 +130,10 @@ shinyServer(function(input, output, session) {
     } 
     })
     
-    plot.dat$layerPre0 <- reactive(geom_sf(data = rutas_naturales_fondo(), fill = "#E7E7E7"))
+    plot.dat$layerPre0 <- reactive(geom_sf(data = rutas_naturales_fondo(), 
+                                           fill = "#E7E7E7",
+                                           alpha = input$alpha_rn,
+                                           size = input$size_rn))
     
     # Control de opciones de capas definidas
     
