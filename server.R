@@ -137,7 +137,7 @@ shinyServer(function(input, output, session) {
     
     # Control de opciones de capas definidas
     
-    options <- c("Ninguna","Regiones","Rutas Naturales","Circuitos", "Rutas Escénicas",
+    options <- c("Ninguna","Regiones","Circuitos", "Rutas Escénicas",
                  "Áreas Protegidas", "Vías Nacionales","Capitales")
     
     observeEvent(input$preCapas,{
