@@ -1,28 +1,10 @@
 
 shinyServer(function(input, output, session) {
-    
-    # hide(id = "panel2")
-    # hide(id = "panel3")
-    
+
+
     # Creo objeto para guardar capas
-    plot.dat <- reactiveValues(main=NULL, 
-                               layerSud =NULL, 
-                               layerDep =NULL,
-                               layerPre0 = reactive(NULL),
-                               layerPre =NULL,
-                               layerPre2 = NULL,
-                               layerRuta = reactive(NULL),
-                               layer1= reactive(NULL), 
-                               layer2= reactive(NULL),
-                               layer3= reactive(NULL),
-                               refMain = reactive(NULL),
-                               refLayer1 = reactive(NULL),
-                               refLayer2 = reactive(NULL),
-                               refLayer3 = reactive(NULL))
+    plot.dat <- reactiveValues()
     
-    Sys.sleep(2)
-    
-    waiter_hide()
     
     # Filtro mapa de Argentina/provincias
     mapa_base <- reactive({
@@ -212,7 +194,7 @@ shinyServer(function(input, output, session) {
     alto_mapa$enable()
     
     dpi_mapa <- InputValidator$new()
-    dpi_mapa$add_rule("dpiMap", sv_between(50, 600, message_fmt = "Inserte un valor entre {left} y {right}"))
+    dpi_mapa$add_rule("dpiMap", sv_between(50, 1000, message_fmt = "Inserte un valor entre {left} y {right}"))
     dpi_mapa$enable()
     
     # Llamo módulo de capas
@@ -222,16 +204,6 @@ shinyServer(function(input, output, session) {
     
     # Guardo capas generadas por el módulo
     observe({
-
-        # if (value1$b()=="Click") {
-        #     show(id = "panel2")
-        # }
-        # 
-        # if (value2$b()=="Click") {
-        #     show(id = "panel3")
-        #     hideElement("layer3-btnCapa")
-        # }
-        
         
         if (!is.null(value1$d())) {
             plot.dat$layer1 <- reactive({value1$a()})
@@ -277,8 +249,10 @@ shinyServer(function(input, output, session) {
         })
         
         
-    # Control del botón de descargar mapa
+    #Oculto waiter    
+    waiter_hide()
         
+    # Control del botón de descargar mapa
     output$downloadMap <- downloadHandler(
         filename = function() {paste("mapear", input$formatoMapa, sep =".")},
         content = function(file) {

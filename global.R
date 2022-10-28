@@ -9,6 +9,7 @@ library(shinyWidgets) # Custom Inputs Widgets for Shiny, CRAN v0.7.0
 library(colourpicker) # A Colour Picker Tool for Shiny and for Selecting Colours in Plots, CRAN v1.1.1
 library(waiter) # Loading screens for Shiny
 library(shinyBS) # Twitter Bootstrap Components for Shiny, CRAN v0.61.1
+library(ggimage) # Use Image in 'ggplot2'
 
 # Cargo mapa de Argentina
 mapa_arg <- get_geo("ARGENTINA", level = "provincia") %>% 
@@ -25,3 +26,4 @@ loading_screen <- tagList(
   h3("Cargando...", style = "color:gray;"),
   img(src = "https://tableros.yvera.tur.ar/recursos/logo_mintur_color.png", height = "200px")
 )
+

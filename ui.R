@@ -33,14 +33,7 @@ shinyUI(
                                                            choices = c("País",sort(unique(mapa_arg$name_iso))),
                                                            multiple = T, selected = "País"), width = 6),
                                         column(3, colourInput("fill_arg", "Relleno", value = "#FFFFFF", returnName = F)),
-                                        column(3, selectInput("color_arg", "Líneas", selected = "black", 
-                                                              choices = c("Negro"="black",
-                                                                          "Gris"="grey",
-                                                                          "Blanco"="white",
-                                                                          "Rojo"="red",
-                                                                          "Azul"="blue",
-                                                                          "Amarillo"="yellow",
-                                                                          "Verde"="green")))),
+                                        column(3, colourInput("color_arg", "Líneas", value = "#000000", returnName = F))),
                                       
                                       fluidRow(
                                         column(6,checkboxInput("sudamerica", 
@@ -52,14 +45,7 @@ shinyUI(
                                                   column(4,checkboxInput("refProv", 
                                                                          label = "Agregar etiqueta", value = F)),
                                                   
-                                                  column(4, selectInput("color_deptos", "Color", selected = "black", 
-                                                                        choices = c("Negro"="black",
-                                                                                    "Gris"="grey",
-                                                                                    "Blanco"="white",
-                                                                                    "Rojo"="red",
-                                                                                    "Azul"="blue",
-                                                                                    "Amarillo"="yellow",
-                                                                                    "Verde"="green"))),
+                                                  column(4, colourInput("color_deptos", "Color", value = "#000000", returnName = F)),
                                                   column(4,sliderInput("refProvSize", label = "Tamaño", 
                                                                        value = 1, min = 0.5, max = 7, step = 0.5))
                                                 )))), 
@@ -157,9 +143,13 @@ shinyUI(
              
              h5(tags$ul(tags$p("  7. La plataforma permite cargar hasta seis capas de datos, además de la capa base del país. Una de rutas naturales, dos predefinidas (como las áreas protegidas) y tres personalizadas. Tener en cuenta a la hora de armar el mapa, que cada capa que se suma se suporpone a la anterior. Así, la CAPA 1 va a tapar la CAPA BASE, y a su vez va a quedar por debajo de la CAPA 2."))),
              
-             h5(tags$ul(tags$p("A continuación puede descargar una base modelo, con algunos aeropuertos de Argentina, para tener de referncia a la hora de estructurar los datos a mapear."))),
+             h5(tags$ul(tags$p("  8. Se pueden utilizar íconos para representar puntos en el mapa. En este caso, debe existir una columna denominada ", tags$b("icono"), " que contenga el nombre del mismo, con una referencia al repositorio correspondiente. Las opciones son ", tags$a(href="https://argob.github.io/poncho/identidad/iconos/", "Poncho"), " o ", tags$a(href="https://fontawesome.com/icons", "Font Awesome")," (visitar links para buscar los nombres de los íconos). Se debe escribir 'poncho' o 'fa' para referir a cada librería, seguido de un guión medio y el nombre del ícono. Ejemplo: 'poncho-aeropuerto' o 'fa-location-dot'. La resolución de las imágenes puede no ser óptima debido a configuraciones del sistema."))),
              
-             downloadButton(outputId = 'downloadData', label = 'Descargar base'),br(),br()
+             h5(tags$ul(tags$p("A continuación puede descargar una base modelo, con algunos aeropuertos de Argentina, para tener de referencia a la hora de estructurar los datos a mapear."))),
+             
+             downloadButton(outputId = 'downloadData', label = 'Descargar base'),br(),br(),
+             
+             h5("Nota: las capas de áreas protegidas y vías nacionales se elaboraron en base a información del ", tags$a(href="https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG", "Instituto Geográfico Nacional.")," Visitar el sitio para conocer más sobre las distintas capas disponibles a nivel país.")
     ),
     
     column(tags$footer(tags$a(img(src = "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
