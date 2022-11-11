@@ -1,4 +1,6 @@
 shinyUI(
+  
+
   navbarPage(title = div(div(
     id = "img-id",
     tags$a(img(src = "https://tableros.yvera.tur.ar/recursos/logo_sinta.png",
@@ -9,7 +11,8 @@ shinyUI(
     position = "fixed-top",
     windowTitle = "MapeAr", 
     collapsible = TRUE,
-    tabPanel("MAPA",
+    
+    tabPanel("MAPA", 
              
              useWaiter(),
              waiter_show_on_load(html = loading_screen, color = "white"),
@@ -111,11 +114,14 @@ shinyUI(
                
                # Panel de previsualización
                mainPanel(width = 6,
-                         plotOutput("mapa", width = 600, height = 700))
+                         plotOutput("mapa", width = "100%", height = 700))
              )
     ),
-    tabPanel("¿CÓMO USAR?",
+    
+    tabPanel(title = "¿CÓMO USAR?", 
              
+             div(id="container-info",
+                 
              h3("USANDO DATOS ESPACIALES"),
              h5("Para poder visualizar información en el mapa y descargarlos, se necesita contar con una base de datos", tags$b("espaciales")),
              h5("Existen distintos tipos de datos que se pueden mapear en un plano:"),
@@ -150,10 +156,10 @@ shinyUI(
              downloadButton(outputId = 'downloadData', label = 'Descargar base'),br(),br(),
              
              h5("Nota: las capas de áreas protegidas y vías nacionales se elaboraron en base a información del ", tags$a(href="https://www.ign.gob.ar/NuestrasActividades/InformacionGeoespacial/CapasSIG", "Instituto Geográfico Nacional.")," Visitar el sitio para conocer más sobre las distintas capas disponibles a nivel país.")
+    )
     ),
     
-    column(tags$footer(tags$a(img(src = "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-                                  width = 50),href="https://github.com/dnme-minturdep/")), 
-           width = 1, offset = 11)
+   
+    div(includeHTML("/srv/shiny-server/recursos/shiny_footer.html"))
   )
 )
