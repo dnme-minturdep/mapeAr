@@ -22,7 +22,8 @@
 }
 
 .row {
-  padding: 5px;
+  margin-right: 0;
+  margin-left: 0;
 } 
 
 .well {
@@ -38,7 +39,6 @@ div.outer {
   right: 0;
   bottom: 0;
   overflow: hidden;
-  padding: 0;
 }
 
 /* Customize fonts */
@@ -94,6 +94,7 @@ div.outer {
 
 .navbar { 
   background-color: #37BBED;
+  padding-left: 15px;
 }
 
 .navbar1 { 
@@ -109,3 +110,42 @@ div.outer {
   color: black;
 }
 
+
+.footer {
+  font-family: 'Encode Sans Normal', Helvetica;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: white;
+  background-color: #37BBED;
+  height: auto;
+  padding: 20px;
+}
+
+#footer-text {
+  font-family: 'Encode Sans Normal', Helvetica;
+  color: white;
+  font-style: normal;
+}
+
+.fa-github {
+  color: white;
+}
+
+.fa-robot {
+  color: white;
+}
+
+.col-md-1 {
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.container-fluid {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+#container-info {
+  padding-right: 20px;
+  padding-left: 20px;
+}

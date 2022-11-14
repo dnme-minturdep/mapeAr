@@ -154,6 +154,7 @@ shinyServer(function(input, output, session) {
         }
     })
 
+
     # Cargo capa predefinida 2
     observeEvent(list(input$provincia,input$preCapas2, input$size_pre2, input$alpha_pre2, mapa_base()),{
         if (input$preCapas2 == "Ninguna") {
