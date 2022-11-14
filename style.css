@@ -22,7 +22,6 @@
 }
 
 .row {
-  padding: 5px;
   margin-right: 0;
   margin-left: 0;
 } 
@@ -115,6 +114,7 @@ div.outer {
 .footer {
   font-family: 'Encode Sans Normal', Helvetica;
   font-size: 1.5rem;
+  font-style: italic;
   color: white;
   background-color: #37BBED;
   height: auto;
@@ -122,7 +122,9 @@ div.outer {
 }
 
 #footer-text {
+  font-family: 'Encode Sans Normal', Helvetica;
   color: white;
+  font-style: normal;
 }
 
 .fa-github {
