@@ -10,16 +10,13 @@ shinyUI(
     position = "fixed-top",
     windowTitle = "MapeAr", 
     collapsible = TRUE,
+    header = includeCSS("style.css"),
     
     tabPanel("MAPA", 
              
              useWaiter(),
              waiter_show_on_load(html = loading_screen, color = "white"),
-             
-             div(
-               tags$head(
-                 includeCSS("style.css")
-               )),
+            
              br(),
              sidebarLayout(
                sidebarPanel(width = 6, style="overflow: auto;
