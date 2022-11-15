@@ -5,7 +5,7 @@ shinyUI(
     tags$a(img(src = "https://tableros.yvera.tur.ar/recursos/logo_sinta.png",
                width = 150),href="https://www.yvera.tur.ar/sinta/",target = '_blank'
     )),
-    "MapeAr", id = "title", class = "navbar1"),
+    icon("map-location-dot"), "MapeAr", id = "title", class = "navbar1"),
     id="navbar",
     position = "fixed-top",
     windowTitle = "MapeAr", 
