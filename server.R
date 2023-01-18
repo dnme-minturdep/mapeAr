@@ -119,7 +119,7 @@ shinyServer(function(input, output, session) {
     
     # Control de opciones de capas definidas
     
-    options <- c("Ninguna","Regiones","Circuitos", "Rutas Escénicas",
+    options <- c("Ninguna","Regiones","Circuitos", "Circuitos subidos a la web", "Rutas Escénicas",
                  "Áreas Protegidas", "Vías Nacionales","Capitales")
     
     observeEvent(input$preCapas,{
@@ -138,6 +138,10 @@ shinyServer(function(input, output, session) {
             circuitos <- st_read("/srv/DataDNMYE/capas_sig/circuitos.gpkg", "circuitos") %>% 
                     st_filter(mapa_base())
             plot.dat$layerPre <- geom_sf(data =circuitos, color = "#87222b", size = input$size_pre, alpha = input$alpha_pre)
+        } else if (input$preCapas == "Circuitos subidos a la web") {
+            circuitos <- st_read("/srv/DataDNMYE/capas_sig/circuitos_web.gpkg", "circuitos_web") %>% 
+                st_filter(mapa_base())
+            plot.dat$layerPre <- geom_sf(data =circuitos, color = "#632711", size = input$size_pre, alpha = input$alpha_pre)
         } else if (input$preCapas == "Rutas Escénicas") {
             rutas_escenicas <- st_read("/srv/DataDNMYE/capas_sig/rutas_escenicas.gpkg", "rutas_escenicas") %>% 
                 st_intersection(mapa_base())
@@ -166,6 +170,10 @@ shinyServer(function(input, output, session) {
             circuitos <- st_read("/srv/DataDNMYE/capas_sig/circuitos.gpkg", "circuitos") %>% 
                 st_filter(mapa_base())
             plot.dat$layerPre2 <- geom_sf(data =circuitos, color = "#87222b", size = input$size_pre2, alpha = input$alpha_pre2)
+        } else if (input$preCapas2 == "Circuitos subidos a la web") {
+            circuitos <- st_read("/srv/DataDNMYE/capas_sig/circuitos_web.gpkg", "circuitos_web") %>% 
+                st_filter(mapa_base())
+            plot.dat$layerPre2 <- geom_sf(data =circuitos, color = "#632711", size = input$size_pre2, alpha = input$alpha_pre2)
         } else if (input$preCapas2 == "Rutas Escénicas") {
             rutas_escenicas <- st_read("/srv/DataDNMYE/capas_sig/rutas_escenicas.gpkg", "rutas_escenicas") %>% 
                 st_intersection(mapa_base())
