@@ -12,8 +12,7 @@ library(shinyBS) # Twitter Bootstrap Components for Shiny, CRAN v0.61.1
 library(ggimage) # Use Image in 'ggplot2'
 
 # Cargo mapa de Argentina
-mapa_arg <- get_geo("ARGENTINA", level = "provincia") %>% 
-  add_geo_codes() %>% 
+mapa_arg <- read_sf("/srv/DataDNMYE/capas_sig/argentina.geojson") %>% 
   mutate(name_iso = case_when(name_iso == "Ciudad Autónoma de Buenos Aires" ~ "CABA",
                               TRUE ~ name_iso))
 
