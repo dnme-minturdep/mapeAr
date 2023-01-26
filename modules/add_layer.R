@@ -235,69 +235,69 @@ capasServer <- function(id) {
       } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Único") {
         geom_sf(data = capa(), size = as.numeric(input$size), color = capa()$color_hex, shape = as.numeric(input$shape), alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Único" & input$opcionShape == "Única" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), color = input$color, linetype = input$shape, size = as.numeric(input$size), alpha =input$alpha)
+        geom_sf(data = capa(), color = input$color, linetype = input$shape, linewidth = as.numeric(input$size), alpha =input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Único" & input$opcionShape == "Única" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(size = input$size), color = input$color, linetype = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(linewidth = input$size), color = input$color, linetype = input$shape, alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Único" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable"){
-        geom_sf(data = capa(), aes_string(linetype = as.character(input$shape), size = input$size),color = input$color, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(linetype = as.character(input$shape), linewidth = input$size),color = input$color, alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Único" & input$opcionShape == "Según variable" & input$opcionSize == "Único"){
-        geom_sf(data = capa(), aes_string(linetype = input$shape),size = as.numeric(input$size),color = input$color, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(linetype = input$shape),linewidth = as.numeric(input$size),color = input$color, alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Según variable" & input$opcionShape == "Única" & input$opcionSize == "Según variable"){
-        geom_sf(data = capa(), aes_string(color = input$color,size = input$size), linetype = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$color,linewidth = input$size), linetype = input$shape, alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Según variable" & input$opcionShape == "Única" & input$opcionSize == "Único"){
-        geom_sf(data = capa(), aes_string(color = input$color), size = as.numeric(input$size), linetype = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$color), linewidth = as.numeric(input$size), linetype = input$shape, alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable"){
-        geom_sf(data = capa(), aes_string(color = input$color,size = input$size, linetype = input$shape), alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$color,linewidth = input$size, linetype = input$shape), alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Único"){
-        geom_sf(data = capa(), aes_string(color = input$color, linetype = input$shape),size = as.numeric(input$size), alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$color, linetype = input$shape),linewidth = as.numeric(input$size), alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(size = input$size), color = capa()$color_hex, linetype = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(linewidth = input$size), color = capa()$color_hex, linetype = input$shape, alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), color = capa()$color_hex,size = input$size, linetype = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), color = capa()$color_hex,linewidth = input$size, linetype = input$shape, alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(color = input$color, size = input$size, linetype = input$shape), alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$color, linewidth = input$size, linetype = input$shape), alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), aes_string(color = input$color,linetype = input$shape),size = as.numeric(input$size), alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$color,linetype = input$shape),linewidth = as.numeric(input$size), alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Personalizado" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(linetype = input$shape, size = input$size), color = capa()$color_hex, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(linetype = input$shape, linewidth = input$size), color = capa()$color_hex, alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Personalizado" & input$opcionShape == "Según variable" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), aes_string(linetype = input$shape),size = as.numeric(input$size), color = capa()$color_hex, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(linetype = input$shape),linewidth = as.numeric(input$size), color = capa()$color_hex, alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(size = input$size), color = capa()$color_hex, linetype = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(linewidth = input$size), color = capa()$color_hex, linetype = input$shape, alpha = input$alpha)
       } else if (input$vector == "Líneas" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), size = as.numeric(input$size), color = capa()$color_hex, linetype = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), linewidth = as.numeric(input$size), color = capa()$color_hex, linetype = input$shape, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Único" & input$opcionShape == "Único" & input$opcionSize == "Único"){
-        geom_sf(data = capa(), size = as.numeric(input$size), color = input$shape, fill = input$color, alpha = input$alpha)
+        geom_sf(data = capa(), linewidth = as.numeric(input$size), color = input$shape, fill = input$color, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Único" & input$opcionShape == "Único" & input$opcionSize == "Según variable"){
-        geom_sf(data = capa(), aes_string(size = input$size), color = input$shape, fill = input$color, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(linewidth = input$size), color = input$shape, fill = input$color, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Único" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable"){
-        geom_sf(data = capa(), aes_string(color = as.character(input$shape), size = input$size), fill = input$color, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = as.character(input$shape), linewidth = input$size), fill = input$color, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Único" & input$opcionShape == "Según variable" & input$opcionSize == "Único"){
-        geom_sf(data = capa(), aes_string(color = input$shape),size = as.numeric(input$size),fill = input$color, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$shape),linewidth = as.numeric(input$size),fill = input$color, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Según variable" & input$opcionShape == "Único" & input$opcionSize == "Según variable"){
-        geom_sf(data = capa(), aes_string(fill = input$color,size = input$size), color = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(fill = input$color,linewidth = input$size), color = input$shape, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Según variable" & input$opcionShape == "Único" & input$opcionSize == "Único"){
-        geom_sf(data = capa(), aes_string(fill = input$color), size = as.numeric(input$size), color = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(fill = input$color), linewidth = as.numeric(input$size), color = input$shape, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable"){
-        geom_sf(data = capa(), aes_string(fill = input$color,size = input$size, color = input$shape), alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(fill = input$color,linewidth = input$size, color = input$shape), alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Único"){
-        geom_sf(data = capa(), aes_string(fill = input$color, color = input$shape),size = as.numeric(input$size), alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(fill = input$color, color = input$shape),linewidth = as.numeric(input$size), alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Personalizado" & input$opcionShape == "Único" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(size = input$size), fill = capa()$color_hex, color = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(linewidth = input$size), fill = capa()$color_hex, color = input$shape, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Personalizado" & input$opcionShape == "Único" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), fill = capa()$color_hex,size = input$size, color = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), fill = capa()$color_hex,linewidth = input$size, color = input$shape, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(fill = capa(), size = input$size, color = input$shape), alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(fill = capa(), linewidth = input$size, color = input$shape), alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), aes_string(fill = capa(),color = input$shape),size = as.numeric(input$size), alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(fill = capa(),color = input$shape),linewidth = as.numeric(input$size), alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Personalizado" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(color = input$shape, size = input$size), fill = capa()$color_hex, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$shape, linewidth = input$size), fill = capa()$color_hex, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Personalizado" & input$opcionShape == "Según variable" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), aes_string(color = input$shape),size = as.numeric(input$size), fill = capa()$color_hex, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(color = input$shape),linewidth = as.numeric(input$size), fill = capa()$color_hex, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Personalizado" & input$opcionShape == "Único" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(size = input$size), fill = capa()$color_hex, color = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), aes_string(linewidth = input$size), fill = capa()$color_hex, color = input$shape, alpha = input$alpha)
       } else if (input$vector == "Polígonos" & input$opcionColor == "Personalizado" & input$opcionShape == "Único" & input$opcionSize == "Único") {
-        geom_sf(data = capa(), size = as.numeric(input$size), fill = capa()$color_hex, color = input$shape, alpha = input$alpha)
+        geom_sf(data = capa(), linewidth = as.numeric(input$size), fill = capa()$color_hex, color = input$shape, alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Único" & input$opcionShape == "Ícono" & input$opcionSize == "Único") {
         geom_image(data = capa(), aes(geometry = geometry, image = temp), stat = "sf_coordinates", asp = as.numeric(input$iconAsp), size = as.numeric(input$size), 
                            color = input$color, alpha = input$alpha)
