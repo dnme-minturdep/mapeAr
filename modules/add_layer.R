@@ -95,8 +95,9 @@ capasServer <- function(id) {
             st_as_sf(coords = c("longitud", "latitud"), crs = 4326)
         } else {
           data <- read_sf(input$file$datapath) %>% 
-            janitor::clean_names() %>% 
-            st_as_sf(wkt = "geometry", crs = 4326)
+            janitor::clean_names() %>%
+            rename(any_of(c(geometry = "geom"))) %>% 
+            st_as_sf(crs = 4326)
         }
         rm(test)
       } else {
