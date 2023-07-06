@@ -21,7 +21,7 @@ capasUI <- function(id) {
                         )),
       
       column(3,wellPanel(selectInput(ns("opcionSize"),label = "Tamaño", choices=c("Único","Según variable")),
-                         selectInput(ns("size"), label = NULL, choices = c(0.1,0.5,1:7)))),
+                         selectInput(ns("size"), label = NULL, choices = c(0.1,0.5,1:10)))),
       
       column(3,wellPanel(noUiSliderInput(ns("alpha"), label = "Opacidad", min = -0.1, max = 1.1, 
                                          value = 1, step = 0.1, orientation = "vertical", padding = 0.1,
@@ -194,7 +194,7 @@ capasServer <- function(id) {
     
     observeEvent(list(input$opcionSize, input$opcionShape),{
       if (input$opcionSize == "Único" & input$opcionShape != "Ícono") {
-        updateSelectInput(inputId = "size", choices = c(0.1,0.2,0.5,1:7), selected = 3)
+        updateSelectInput(inputId = "size", choices = c(0.1,0.2,0.5,1:10), selected = 3)
       } else  if (input$opcionSize == "Único" & input$opcionShape == "Ícono") {
         updateSelectInput(inputId = "size", choices = c(0.05,0.1,0.15,0.2,0.25,0.3), selected = 0.1)
       } else if (input$opcionSize == "Según variable") {
@@ -208,28 +208,35 @@ capasServer <- function(id) {
       if (input$vector == "Puntos" & input$opcionColor == "Único" & input$opcionShape == "Única" & input$opcionSize == "Único") {
         geom_sf(data = capa(), color = input$color, shape = as.numeric(input$shape), size = as.numeric(input$size), alpha =input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Único" & input$opcionShape == "Única" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(size = input$size), color = input$color, shape = as.numeric(input$shape), alpha = input$alpha)
+        list(geom_sf(data = capa(), aes_string(size = input$size), color = input$color, shape = as.numeric(input$shape), alpha = input$alpha),
+             scale_size(range = c(0.5,15)))
       } else if (input$vector == "Puntos" & input$opcionColor == "Único" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable"){
-        geom_sf(data = capa(), aes_string(shape = input$shape, size = input$size),color = input$color, alpha = input$alpha)
+        list(geom_sf(data = capa(), aes_string(shape = input$shape, size = input$size),color = input$color, alpha = input$alpha),
+        scale_size(range = c(0.5,15)))
       } else if (input$vector == "Puntos" & input$opcionColor == "Único" & input$opcionShape == "Según variable" & input$opcionSize == "Único"){
         geom_sf(data = capa(), aes_string(shape = input$shape),size = as.numeric(input$size),color = input$color, alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Según variable" & input$opcionShape == "Única" & input$opcionSize == "Según variable"){
-        geom_sf(data = capa(), aes_string(color = input$color, size = input$size), shape = as.numeric(input$shape), alpha = input$alpha)
+        list(geom_sf(data = capa(), aes_string(color = input$color, size = input$size), shape = as.numeric(input$shape), alpha = input$alpha),
+        scale_size(range = c(0.5,15)))
       } else if (input$vector == "Puntos" & input$opcionColor == "Según variable" & input$opcionShape == "Única" & input$opcionSize == "Único"){
         geom_sf(data = capa(), aes_string(color = input$color), size = as.numeric(input$size), shape = as.numeric(input$shape), alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable"){
-        geom_sf(data = capa(), aes_string(color = input$color,size = input$size, shape = input$shape), alpha = input$alpha)
+        list(geom_sf(data = capa(), aes_string(color = input$color,size = input$size, shape = input$shape), alpha = input$alpha),
+        scale_size(range = c(0.5,15)))
       } else if (input$vector == "Puntos" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Único"){
         geom_sf(data = capa(), aes_string(color = input$color, shape = input$shape),size = as.numeric(input$size), alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Única" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(size = input$size), color = capa()$color_hex, shape = as.numeric(input$shape), alpha = input$alpha)
+        list(geom_sf(data = capa(), aes_string(size = input$size), color = capa()$color_hex, shape = as.numeric(input$shape), alpha = input$alpha),
+        scale_size(range = c(0.5,15)))
       } else if (input$vector == "Puntos" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable") {
-        geom_sf(data = capa(), aes_string(color = input$color, size = input$size,shape = input$shape), alpha = input$alpha)
+        list(geom_sf(data = capa(), aes_string(color = input$color, size = input$size,shape = input$shape), alpha = input$alpha),
+        scale_size(range = c(0.5,15)))
       } else if (input$vector == "Puntos" & input$opcionColor == "Según variable" & input$opcionShape == "Según variable" & input$opcionSize == "Único") {
         geom_sf(data = capa(), aes_string(color = input$color,shape = input$shape),size = as.numeric(input$size), alpha = input$alpha)
       } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Según variable" & input$opcionSize == "Según variable") {
         list(geom_sf(data = capa(), aes_string(shape = input$shape, size = input$size), color = capa()$color_hex, alpha = input$alpha),
-             scale_color_manual(values = levels(factor(capa()$color_hex))))
+             scale_color_manual(values = levels(factor(capa()$color_hex))),
+             scale_size(range = c(0.5,15)))
       } else if (input$vector == "Puntos" & input$opcionColor == "Personalizado" & input$opcionShape == "Según variable" & input$opcionSize == "Único") {
         list(geom_sf(data = capa(), aes_string(shape = input$shape, color = input$color),size = as.numeric(input$size)),
              scale_color_manual(values = levels(factor(capa()$color_hex))))
