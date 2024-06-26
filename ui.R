@@ -14,6 +14,8 @@ shinyUI(
     
     tabPanel("MAPA", 
              
+             tags$head(includeHTML("/srv/DataDNMYE/login_shiny/mapear.html")),
+             
              useWaiter(),
              waiter_show_on_load(html = loading_screen, color = "white"),
             
