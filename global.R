@@ -11,6 +11,8 @@ library(waiter) # Loading screens for Shiny
 library(shinyBS) # Twitter Bootstrap Components for Shiny, CRAN v0.61.1
 library(ggimage) # Use Image in 'ggplot2'
 
+options(scipen = 99)
+
 # Cargo mapa de Argentina
 mapa_arg <- read_sf("/srv/DataDNMYE/capas_sig/argentina.geojson") %>% 
   mutate(name_iso = case_when(name_iso == "Ciudad Autónoma de Buenos Aires" ~ "CABA",
@@ -23,6 +25,6 @@ source("modules/add_layer.R", encoding = "UTF-8")
 
 loading_screen <- tagList(
   h3("Cargando...", style = "color:gray;"),
-  img(src = "https://tableros.yvera.tur.ar/recursos/logo_mintur_color.png", height = "200px")
+  img(src = "https://tableros.yvera.tur.ar/recursos/logo_color.png", height = "250px")
 )
 

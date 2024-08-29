@@ -3,7 +3,7 @@ shinyUI(
   navbarPage(title = div(div(
     id = "img-id",
     tags$a(img(src = "https://tableros.yvera.tur.ar/recursos/logo_sinta.png",
-               width = 150),href="https://www.yvera.tur.ar/sinta/",target = '_blank'
+               width = 100),href="https://www.yvera.tur.ar/sinta/",target = '_blank'
     )),
     icon("map-location-dot"), "MapeAr", id = "title", class = "navbar1"),
     id="navbar",
@@ -109,7 +109,9 @@ shinyUI(
                               column(2,numericInput("dpiMap", label = "Dpi", min = 50, max = 600, value = 200)),
                             ),
                             
-                            downloadButton(outputId = 'downloadMap', label = 'Descargar mapa')),
+                            checkboxInput("legendSwitch", label = "Mostrar leyenda"),
+                            downloadButton(outputId = 'downloadMap', label = 'Descargar mapa'),
+                            downloadButton(outputId = 'downloadLegend', label = 'Descargar leyenda')),
                
                # Panel de previsualización
                mainPanel(width = 6,
@@ -149,6 +151,8 @@ shinyUI(
                  h5(tags$ul(tags$p("  7. La plataforma permite cargar hasta seis capas de datos, además de la capa base del país. Una de rutas naturales, dos predefinidas (como las áreas protegidas) y tres personalizadas. Tener en cuenta a la hora de armar el mapa, que cada capa que se suma se suporpone a la anterior. Así, la CAPA 1 va a tapar la CAPA BASE, y a su vez va a quedar por debajo de la CAPA 2."))),
                  
                  h5(tags$ul(tags$p("  8. Se pueden utilizar íconos para representar puntos en el mapa. En este caso, debe existir una columna denominada ", tags$b("icono"), " que contenga el nombre del mismo, con una referencia al repositorio correspondiente. Las opciones son ", tags$a(href="https://argob.github.io/poncho/identidad/iconos/", "Poncho"), " o ", tags$a(href="https://fontawesome.com/icons", "Font Awesome")," (visitar links para buscar los nombres de los íconos). Se debe escribir 'poncho' o 'fa' para referir a cada librería, seguido de un guión medio y el nombre del ícono. Ejemplo: 'poncho-aeropuerto' o 'fa-location-dot'. La resolución de las imágenes puede no ser óptima debido a configuraciones del sistema."))),
+                 
+                 h5(tags$ul(tags$p("  9. Se incorporó la opción de incluir una leyenda con las referencias correspondientes a las variables de mapeo utilizadas en las capas personalizadas. La misma se genera automáticamente de acuerdo a parámetros internos del sistema, en caso de querer personalizarla se sugiere descargar la misma por separado en formato svg, para editarla luego en un programa de diseño."))),
                  
                  h5(tags$ul(tags$p("A continuación puede descargar una base modelo, con algunos aeropuertos de Argentina, para tener de referencia a la hora de estructurar los datos a mapear."))),
                  

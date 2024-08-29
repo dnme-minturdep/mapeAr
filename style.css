@@ -44,7 +44,7 @@ div.outer {
 /* Customize fonts */
   label { 
     font-family: 'Encode Sans Normal', Helvetica;
-    color : #37BBED;
+    color : #252C4F;
     font-weight: 400;
   }
 
@@ -63,7 +63,7 @@ div.outer {
 
   h1, h2, h3, h4 { font-weight: 400; 
     font-family: 'Encode Sans Normal', Helvetica;
-    color: #37BBED;
+    color: #252C4F;
     
   }
 
@@ -93,7 +93,7 @@ div.outer {
 
 
 .navbar { 
-  background-color: #37BBED;
+  background-color: #252C4F;
   padding-left: 15px;
 }
 
@@ -116,7 +116,7 @@ div.outer {
   font-size: 1.5rem;
   font-style: italic;
   color: white;
-  background-color: #37BBED;
+  background-color: #252C4F;
   height: auto;
   padding: 20px;
 }

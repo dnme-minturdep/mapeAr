@@ -19,8 +19,8 @@ shinyServer(function(input, output, session) {
     # Armo capa base
     plot.dat$main <- reactive(ggplot() +
                                   geom_sf(data = mapa_base(), fill = input$fill_arg, color = input$color_arg) +
-                                  theme_void() +
-                                  theme(legend.position = "none")
+                                  theme_void() #+
+                                  #theme(legend.position = "none")
                               )
     
     # Cargo capa continente Sudamérica
@@ -251,14 +251,39 @@ shinyServer(function(input, output, session) {
                 plot.dat$layerSud + plot.dat$layerDep + 
                 plot.dat$layer1() + plot.dat$refLayer1() + 
                 plot.dat$layer2() + plot.dat$refLayer2() +
-                plot.dat$layer3() + plot.dat$refLayer3() 
+                plot.dat$layer3() + plot.dat$refLayer3()
         })
         
+    legend <- reactive({
+        ggpubr::get_legend(mapa())
+    })    
+        
+        
+    output$downloadLegend <- downloadHandler(
+        filename = function() {paste("leyenda", input$formatoMapa, sep =".")},
+        content = function(file) {
+            ggsave(file, plot = legend(), device = input$formatoMapa, bg = "transparent",
+                   dpi = as.numeric(input$dpiMap))
+        })
+    
     # Renderizo mapa
+    
+    observe(
+    if (input$legendSwitch) {
+        
         output$mapa <- renderPlot({
             mapa()
         })
         
+    } else {
+        
+        output$mapa <- renderPlot({
+            mapa()  +
+                theme(legend.position = "none")
+        })
+        
+    }
+    )
         
     #Oculto waiter    
     waiter_hide()
