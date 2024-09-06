@@ -242,16 +242,37 @@ shinyServer(function(input, output, session) {
         
     })
         
+    plot.dat$layerLegend <- reactive({
+        if (input$legendSwitch) {
+            
+        theme(legend.position = "right")
+            
+        } else {
+            
+            theme(legend.position = "none")
+            
+        }
+        
+        })
+
     # Genero mapa con todas las capas
         mapa <- reactive({
-            plot.dat$main() + plot.dat$refMain + 
-                plot.dat$layerRuta() +
-                plot.dat$layerPre0() + 
-                plot.dat$layerPre + plot.dat$layerPre2 +
-                plot.dat$layerSud + plot.dat$layerDep + 
-                plot.dat$layer1() + plot.dat$refLayer1() + 
-                plot.dat$layer2() + plot.dat$refLayer2() +
-                plot.dat$layer3() + plot.dat$refLayer3()
+                
+                plot.dat$main() + plot.dat$refMain + 
+                    plot.dat$layerRuta() +
+                    plot.dat$layerPre0() + 
+                    plot.dat$layerPre + plot.dat$layerPre2 +
+                    plot.dat$layerSud + plot.dat$layerDep + 
+                    plot.dat$layer1() + plot.dat$refLayer1() + 
+                    plot.dat$layer2() + plot.dat$refLayer2() +
+                    plot.dat$layer3() + plot.dat$refLayer3()  +
+                plot.dat$layerLegend()
+                
+            
+        })
+        
+        output$mapa <- renderPlot({
+            mapa() 
         })
         
     legend <- reactive({
@@ -267,24 +288,7 @@ shinyServer(function(input, output, session) {
         })
     
     # Renderizo mapa
-    
-    observe(
-    if (input$legendSwitch) {
-        
-        output$mapa <- renderPlot({
-            mapa()
-        })
-        
-    } else {
-        
-        output$mapa <- renderPlot({
-            mapa()  +
-                theme(legend.position = "none")
-        })
-        
-    }
-    )
-        
+
     #Oculto waiter    
     waiter_hide()
         
