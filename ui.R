@@ -53,9 +53,9 @@ shinyUI(
                                                                  )))), 
                             
                             # Panel de capa Rutas naturales
-                            bsCollapsePanel(h4("CAPA RUTAS NATURALES"),
+                            bsCollapsePanel(h4("CAPA REGIONES NATURALES"),
                                             selectInput("ruta_natural",
-                                                        label = "Agregar rutas", 
+                                                        label = "Agregar regiones", 
                                                         choices = c("Ninguna","Todas",sort(unique(rutas_naturales_base$ruta_natural))),
                                                         multiple = T, selected = "Ninguna"),
                                             
@@ -68,7 +68,7 @@ shinyUI(
                                             ),
                                             
                                             checkboxInput("rutas_gris", 
-                                                          label = "Completar rutas en gris", value = F)
+                                                          label = "Completar regiones en gris", value = F)
                             ),
                             
                             # Panel de capas predefinidas
