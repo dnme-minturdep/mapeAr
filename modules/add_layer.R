@@ -160,7 +160,7 @@ capasServer <- function(id) {
       if (input$opcionColor == "Único") {
         colourInput(inputId = ns("color"), label = NULL, value = "purple")
       } else if (input$opcionColor == "Según variable"){
-        selectInput(inputId = ns("color"), label = NULL, choices = colnames(capa() %>% select_if(is.character) %>% st_set_geometry(NULL)))
+        selectInput(inputId = ns("color"), label = NULL, choices = colnames(capa() %>% select_if(function(x) is.character(x) | is.numeric(x)) %>% st_set_geometry(NULL)))
       } else if (input$opcionColor == "Personalizado") {
         selectInput(inputId = ns("color"), label = NULL, choices = "color_hex")
       }
